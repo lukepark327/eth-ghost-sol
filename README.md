@@ -1,5 +1,7 @@
 # ghost-relay
-the GHOST protocol implementation on solidity.
+the GHOST protocol implementation on solidity.   
+
+![icon](https://github.com/twodude/ghost-relay/blob/master/images/icon.png)
 
 
 ## Discussion
