@@ -11,7 +11,7 @@ We refer to the following post[[1]](https://github.com/twodude/ghost-relay/blob/
 
 ### Pruning
 
-It needs too many fees(gas) to contain all tree's nodes, so we have to prune some useless branches. Fortunately, Ethereum adopts not GHOST but
+It requires too many fees(gas) to contain all tree's nodes, so we have to prune some useless branches. Fortunately, Ethereum adopts not GHOST but
 **modified GHOST protocol**
 which covers only seven levels, and requires ten confirmations to achieve finality[[2]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
