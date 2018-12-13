@@ -1,4 +1,4 @@
-# ghost-relay
+# GHOST Relay
 the GHOST protocol implementation on solidity.   
 
 ![icon](https://github.com/twodude/ghost-relay/blob/master/images/icon.png)
@@ -31,3 +31,6 @@ It is possible to prune all the other branches more than ten times previously ex
 
 [1] https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
 [2] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
+
+## License
+The GHOST Relay project is licensed under the [MIT](https://opensource.org/licenses/MIT), also included in our repository in the [LICENSE](https://github.com/twodude/ghost-relay/blob/master/LICENSE) file.
