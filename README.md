@@ -9,7 +9,7 @@ It needs too many fees(gas) to contain all tree's nodes, so we have to prune som
 **modified GHOST protocol**
 which covers only seven levels, and requires ten confirmations to achieve finality[[1]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
-It is possible to prune all the other branches more than ten times previously except a main-chain one.
+It is possible to prune all the other branches more than ten times previously except a main-chain's one.
 
 
 
