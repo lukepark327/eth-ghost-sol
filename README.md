@@ -9,7 +9,7 @@ the GHOST protocol implementation on solidity.
 
 ### Tree
 
-We refer to the following post[[1]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+Based on the following post[[1]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 ### Pruning
 
