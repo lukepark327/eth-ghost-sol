@@ -17,3 +17,4 @@ the GHOST protocol implementation on solidity.
 
 ### Ethereum Finality
 - https://stackoverflow.com/questions/49065176/how-many-confirmations-should-i-have-on-ethereum   
+- https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
