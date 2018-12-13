@@ -28,6 +28,3 @@ It is possible to prune all the other branches more than ten times previously ex
 
 ### Tree Structure on Solidity
 - https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
-
-### Ethereum Finality
-- https://stackoverflow.com/questions/49065176/how-many-confirmations-should-i-have-on-ethereum   
