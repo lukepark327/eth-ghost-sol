@@ -8,7 +8,7 @@ the GHOST protocol implementation on solidity.
 - https://ethereum.stackexchange.com/questions/38121/why-did-ethereum-abandon-the-ghost-protocol?noredirect=1&lq=1   
 - http://www.cs.huji.ac.il/~yoni_sompo/pubs/15/inclusive_full.pdf   
 - https://www.youtube.com/watch?v=57DCYtk0lWI   
-> 24 min
+  - 24 min
 
 ## References
 
