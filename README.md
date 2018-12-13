@@ -5,14 +5,17 @@ the GHOST protocol implementation on solidity.
 
 ## Details
 
+### Tree
+
+We refer to the following post[[1]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+
+### Pruning
+
 It needs too many fees(gas) to contain all tree's nodes, so we have to prune some useless branches. Fortunately, Ethereum adopts not GHOST but
 **modified GHOST protocol**
-which covers only seven levels, and requires ten confirmations to achieve finality[[1]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+which covers only seven levels, and requires ten confirmations to achieve finality[[2]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 It is possible to prune all the other branches more than ten times previously except a main-chain's one.
-
-
-
 
 ## Discussion
 
@@ -24,7 +27,5 @@ It is possible to prune all the other branches more than ten times previously ex
 
 ## References
 
-[1] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
-
-### Tree Structure on Solidity
-- https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
+[1] https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
+[2] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
