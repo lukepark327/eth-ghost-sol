@@ -41,8 +41,16 @@ contract ObjectTree {
         public
         returns(bytes32 newNodeId)
     {
+        /*
+            throw: means error occurs. return.
+        */
         if(!isNode(parent) && parent > 0) throw; // zero is a new root node
+        
+        /*
+            use msg.sender and block.number informations
+        */
         newNodeId = sha3(parent, msg.sender, block.number);
+        
         NodeStruct memory node;
         node.parent = parent;
         node.isNode = true;
@@ -72,6 +80,9 @@ contract ObjectTree {
         private
         returns(uint index)
     {
+        /*
+           'push' returns the new length.
+        */
         return nodeStructs[parentId].children.push(childId) - 1;
     }
 
@@ -87,8 +98,14 @@ contract ObjectTree {
         bytes32 parent = nodeStructs[nodeId].parent;
         uint rowToDelete = nodeStructs[nodeId].parentIndex;
         uint rowToMove = nodeStructs[parent].children.length-1; // last child in the list
+
         nodeStructs[parent].children[rowToDelete] = nodeStructs[parent].children[rowToMove];
-        nodeStructs[nodeStructs[parent].children[rowToMove]].parentIndex = rowToMove;
+        
+        /*
+            Type? rowToMove -> rowToDelete
+        */
+        nodeStructs[nodeStructs[parent].children[rowToMove]].parentIndex = rowToDelete;
+
         nodeStructs[parent].children.length--;
         nodeStructs[nodeId].parent=0;
         nodeStructs[nodeId].parentIndex=0;
