@@ -172,5 +172,45 @@ contract ghost {
     {
         return nodeStructs[nodeId].children[index];
     }
+    
+    function getSubTreeWeight(bytes32 nodeId)
+        public
+        view
+        returns(uint)
+    {
+        uint weight = 0;
+        uint childCount = getNodeChildCount(nodeId);
+        weight += childCount;
 
+        for (uint i=0; i<childCount; i++) {
+            bytes32 childId = getNodeChildAtIndex(nodeId, i);
+            
+            weight += getSubTreeWeight(childId);
+        }
+        
+        return weight;
+    }
+    
+    function getNextNode(bytes32 nodeId)
+        public
+        view
+        returns(bytes32 childId)
+    {
+        uint maxWeight = 0;
+        childId = 0;
+        
+        uint childCount = getNodeChildCount(nodeId);
+        for (uint i=0; i<childCount; i++) {
+            bytes32 candidateId = getNodeChildAtIndex(nodeId, i);
+            
+            uint weight = getSubTreeWeight(candidateId);
+            if(weight > maxWeight) {
+                maxWeight = weight;
+                childId = candidateId;
+            }
+        } 
+        
+        return childId;
+    }
+    
 }
