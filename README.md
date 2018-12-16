@@ -87,10 +87,9 @@ which covers only seven levels in the height of blockchain, and requires ten con
 It is possible to prune all the other branches more than ten times previously except a main-chain's one.
 
 
-## How to Use
+## How to Use :: ghost.sol
 
-### ghost.sol
-
+### newNode
 ```solidity
 function newNode(
         bytes32 BlockHash,
@@ -106,6 +105,7 @@ function newNode(
 Register a new node for blockchain(tree structure).   
 Return BlockHash.
 
+### pruneBranch
 ```solidity
 function pruneBranch(bytes32 nodeId)
     public
@@ -115,6 +115,7 @@ function pruneBranch(bytes32 nodeId)
 Delete a branch.   
 Return true/false.
 
+### getNextNode
 ```solidity
 function getNextNode(bytes32 nodeId)
     public
