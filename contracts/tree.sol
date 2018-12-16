@@ -1,4 +1,4 @@
-pragma solidity ^0.4.6; 
+pragma solidity ^0.5.1; 
 
 // Simple, Scalable Object Tree 
 // Supports top-down tree exploration
@@ -25,13 +25,15 @@ contract ObjectTree {
     event LogNewNode(address sender, bytes32 nodeId, bytes32 parentId);
     event LogDelNode(address sender, bytes32 nodeId);
 
-    function ObjectTree() {
+    constructor()
+        public
+    {
         treeRoot = newNode(0);
     }
 
     function isNode(bytes32 nodeId)
         public
-        constant
+        view
         returns(bool isIndeed)
     {
         return nodeStructs[nodeId].isNode;
@@ -42,14 +44,18 @@ contract ObjectTree {
         returns(bytes32 newNodeId)
     {
         /*
-            throw: means error occurs. return.
+            throw; means error occurs. return.
+            same as revert();
         */
-        if(!isNode(parent) && parent > 0) throw; // zero is a new root node
+        if(!isNode(parent) && parent > 0) {
+            revert();
+        }
         
         /*
             use msg.sender and block.number informations
+            sha3 has been deprecated in favour of keccak256
         */
-        newNodeId = sha3(parent, msg.sender, block.number);
+        newNodeId = keccak256(abi.encodePacked(parent, msg.sender, block.number));
         
         NodeStruct memory node;
         node.parent = parent;
@@ -59,7 +65,7 @@ contract ObjectTree {
             node.parentIndex = registerChild(parent,newNodeId);
         }
         nodeStructs[newNodeId] = node;
-        LogNewNode(msg.sender, newNodeId, parent);
+        emit LogNewNode(msg.sender, newNodeId, parent);
         return newNodeId;
     }
 
@@ -110,13 +116,13 @@ contract ObjectTree {
         nodeStructs[nodeId].parent=0;
         nodeStructs[nodeId].parentIndex=0;
         nodeStructs[nodeId].isNode = false;
-        LogDelNode(msg.sender, nodeId);
+        emit LogDelNode(msg.sender, nodeId);
         return true;
     }
 
     function getNodeChildCount(bytes32 nodeId)
         public
-        constant
+        view
         returns(uint childCount)
     {
         return(nodeStructs[nodeId].children.length);
@@ -124,7 +130,7 @@ contract ObjectTree {
 
     function getNodeChildAtIndex(bytes32 nodeId, uint index) 
         public 
-        constant
+        view
         returns(bytes32 childId)
     {
         return nodeStructs[nodeId].children[index];
