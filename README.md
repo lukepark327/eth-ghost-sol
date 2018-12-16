@@ -14,6 +14,16 @@ the GHOST protocol implementation on solidity.
 ### GHOST Protocol[[2]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 ![GHOST](https://github.com/twodude/ghost-relay/blob/master/images/GHOST.png)
 
+The GHOST(Greedy Heaviest Observed SubTree) protocol in Ethereum is designed for higher security under short block interval(time). GHOST includes uncle blocks' rewards of 87.5% and nephew's reward of 12.5% to solve centralization. But the Ethereum version of Ghost only goes down seven levels in the height of the blockchain.
+
+These are some rules that GHOST in Ethereum has to follow[[3]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+* A block must specify its parents and its number of Uncles.
+* An Uncle included in a block must be a direct child of the new block and less than seven blocks below it in terms of height
+* It cannot be the direct ancestor of the block being formed.
+* An Uncle must have a valid block header.
+* An Uncle must be different from all other Uncles in previous blocks and the block being formed.
+* For every Uncle included in the block the miner gets an additional 3.125% and the miner of of the Uncle receives 93.75% of a standard block reward.
+
 
 ## Abstract
 
@@ -23,13 +33,13 @@ the GHOST protocol implementation on solidity.
 
 ### Tree
 
-Based on the following post[[3]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+Based on the following post[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 ### ToDo: Pruning
 
 It requires too many fees(gas) to contain all tree's nodes, so we have to prune some useless branches. Fortunately, Ethereum adopts not GHOST but
 **modified GHOST protocol**
-which covers only seven levels, and requires ten confirmations to achieve finality[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+which covers only seven levels, and requires ten confirmations to achieve finality[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 It is possible to prune all the other branches more than ten times previously except a main-chain's one.
 
@@ -45,10 +55,11 @@ It is possible to prune all the other branches more than ten times previously ex
 
 ## References
 
-[1] G. Wood, "Ethereum a secure decentralised generalised transaction ledger", 2014.
-[2] Sompolinsky Y., Zohar A., "Secure High-Rate Transaction Processing in Bitcoin", 2015.
-[3] https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
-[4] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
+[1] G. Wood, "Ethereum a secure decentralised generalised transaction ledger", 2014.   
+[2] Sompolinsky Y., Zohar A., "Secure High-Rate Transaction Processing in Bitcoin", 2015.   
+[3] https://www.cryptocompare.com/coins/guides/what-is-the-ghost-protocol-for-ethereum/   
+[4] https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
+[5] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
 
 
 ## License
