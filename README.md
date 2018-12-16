@@ -1,9 +1,10 @@
 # GHOST Relay
-the GHOST protocol implementation on solidity.   
 
 ![icon](https://github.com/twodude/ghost-relay/blob/master/images/icon.png)
 
-> based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
+```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts, especially the GHOST protocol implementation.
+
+> Based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
 
 
 ## Backgrounds
@@ -55,6 +56,12 @@ These are some rules that GHOST in Ethereum has to follow[[3]](https://github.co
 
 ## Abstract
 
+```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract dApp. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core. 
+
+**ToDo:**
+This implementation uses the merkle-patricia proofs implemented by
+*Zac Mitton*.
+These contracts will be able to verifiy merkle-patricia proofs about state, transactions, or receipts within specific blocks.
 
 
 ## Details
