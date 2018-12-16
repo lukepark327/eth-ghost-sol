@@ -2,7 +2,7 @@
 
 ![icon](https://github.com/twodude/ghost-relay/blob/master/images/icon.png)
 
-```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts, especially the GHOST protocol implementation.
+The ```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts which includes GHOST protocol implementation, etc..
 
 > Based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
 
