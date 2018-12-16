@@ -103,7 +103,7 @@ function newNode(
 ```
 
 Register a new node for blockchain(tree structure).   
-Return BlockHash.
+Return new block's hash.
 
 ### pruneBranch
 ```solidity
@@ -124,7 +124,7 @@ function getNextNode(bytes32 nodeId)
 ```
 
 Calculate the heavist subtree. Select main chain.   
-Return selected ChildId.
+Return selected child block's hash.
 
 
 ## Discussion
