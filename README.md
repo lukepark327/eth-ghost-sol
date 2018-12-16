@@ -80,7 +80,7 @@ Based on the following post[[4]](https://github.com/twodude/ghost-relay/blob/mas
 
 ## ToDo: Pruning
 
-It requires too many fees(gas) to contain all tree's nodes, so we have to prune some useless branches. Fortunately, Ethereum adopts not GHOST but
+It requires too many fees(gases) to contain all tree's nodes, so we have to prune some useless branches. Fortunately, Ethereum adopts not GHOST but
 **modified GHOST protocol**
 which covers only seven levels in the height of blockchain, and requires ten confirmations to achieve finality[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
@@ -89,19 +89,22 @@ It is possible to prune all the other branches more than ten times previously ex
 
 # How to Use
 
-## Smart Contracts
+## ghost.sol
 
 ### newNode
 
-Register a new node for blockchain(tree structure). 
+Register a new node for blockchain(tree structure).   
+Return BlockHash.
 
 ### pruneBranch
 
-Delete a branch.
+Delete a branch.   
+Return true/false.
 
 ### getNextNode
 
-Calculate the heavist subtree. Select main chain.
+Calculate the heavist subtree. Select main chain.   
+Return selected ChildId.
 
 
 # Discussion
