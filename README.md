@@ -59,7 +59,7 @@ These are some rules that GHOST in Ethereum has to follow[[3]](https://github.co
 ```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract dApp. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core. 
 
 **ToDo:**
-This implementation uses the merkle-patricia proofs implemented by
+This implementation uses the [merkle-patricia proofs](https://github.com/zmitton/eth-proof) implemented by
 *Zac Mitton*.
 These contracts will be able to verifiy merkle-patricia proofs about state, transactions, or receipts within specific blocks.
 
