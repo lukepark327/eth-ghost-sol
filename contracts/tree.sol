@@ -8,7 +8,7 @@ pragma solidity ^0.5.1;
 // Crawl parents recursively and confirm root node (parent=0) isNode==true. 
 // Not the case for members of pruned branches. 
 
-contract ObjectTree {
+contract tree {
 
     bytes32 public treeRoot;
 
