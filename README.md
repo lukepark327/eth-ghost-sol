@@ -11,6 +11,34 @@ the GHOST protocol implementation on solidity.
 ### Ethereum Header[[1]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 ![ethereum header](https://github.com/twodude/ghost-relay/blob/master/images/ethereum%20header.jpg)
 
+Also you can see block header features in web3.js&mdash;Ethereum JavaScript API.
+
+```javascript
+export interface BlockHeader {
+    number: number;
+    hash: string;
+    parentHash: string;
+    nonce: string;
+    sha3Uncles: string;
+    logsBloom: string;
+    transactionRoot: string;
+    stateRoot: string;
+    receiptRoot: string;
+    miner: string;
+    extraData: string;
+    gasLimit: number;
+    gasUsed: number;
+    timestamp: number;
+}
+export interface Block extends BlockHeader {
+    transactions: Transaction[];
+    size: number;
+    difficulty: number;
+    totalDifficulty: number;
+    uncles: string[];
+}
+```
+
 ### GHOST Protocol[[2]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 ![GHOST](https://github.com/twodude/ghost-relay/blob/master/images/GHOST.png)
 
@@ -42,6 +70,12 @@ It requires too many fees(gas) to contain all tree's nodes, so we have to prune 
 which covers only seven levels in the height of blockchain, and requires ten confirmations to achieve finality[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 It is possible to prune all the other branches more than ten times previously except a main-chain's one.
+
+
+## How to Use
+
+### Smart Contracts
+
 
 
 ## Discussion
