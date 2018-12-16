@@ -174,7 +174,7 @@ contract ghost {
     }
     
     function getSubTreeWeight(bytes32 nodeId)
-        public
+        private
         view
         returns(uint)
     {
