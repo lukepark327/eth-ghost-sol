@@ -39,7 +39,7 @@ Based on the following post[[4]](https://github.com/twodude/ghost-relay/blob/mas
 
 It requires too many fees(gas) to contain all tree's nodes, so we have to prune some useless branches. Fortunately, Ethereum adopts not GHOST but
 **modified GHOST protocol**
-which covers only seven levels, and requires ten confirmations to achieve finality[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+which covers only seven levels in the height of blockchain, and requires ten confirmations to achieve finality[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 It is possible to prune all the other branches more than ten times previously except a main-chain's one.
 
