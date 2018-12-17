@@ -1,3 +1,5 @@
+![license](https://img.shields.io/github/license/twodude/ghost-relay.svg)   
+
 # GHOST Relay
 
 ![icon](https://github.com/twodude/ghost-relay/blob/master/images/icon.png)
