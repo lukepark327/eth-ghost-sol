@@ -1,4 +1,5 @@
-![license](https://img.shields.io/github/license/twodude/ghost-relay.svg)   
+[![license](https://img.shields.io/github/license/twodude/ghost-relay.svg)](https://opensource.org/licenses/MIT)
+[![solidity](https://img.shields.io/badge/solidity-%5E0.5.1-brown.svg)]()
 
 # GHOST Relay
 
