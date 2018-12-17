@@ -138,11 +138,11 @@ Return selected child block's hash.
 
 ## References
 
-[1] G. Wood, "Ethereum a secure decentralised generalised transaction ledger", 2014.   
-[2] Sompolinsky Y., Zohar A., "Secure High-Rate Transaction Processing in Bitcoin", 2015.   
-[3] https://www.cryptocompare.com/coins/guides/what-is-the-ghost-protocol-for-ethereum/   
-[4] https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
-[5] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
+> [1] G. Wood, "Ethereum a secure decentralised generalised transaction ledger", 2014.   
+> [2] Sompolinsky Y., Zohar A., "Secure High-Rate Transaction Processing in Bitcoin", 2015.   
+> [3] https://www.cryptocompare.com/coins/guides/what-is-the-ghost-protocol-for-ethereum/   
+> [4] https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
+> [5] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
 
 
 ## License
