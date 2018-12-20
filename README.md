@@ -5,7 +5,7 @@
 
 # OMG
 
-Ethereum does not use both ```GHOST protocol``` and ```Inclusive protocol```. Today's Ethereum is just following the longest chain rule[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+Ethereum does not use both ```GHOST protocol``` and ```Inclusive protocol```. Today's Ethereum is just following the ```longest chain``` rule[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 **Nick Johnson** who is core developer for the Ethereum Foundation said:
 * Ethereum [determines the longest chain based on the total difficulty](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L863), which is embedded in the block header. Ties are broken randomly.
