@@ -12,14 +12,14 @@ I implemented the DAG structure on solidity. The implementation of DAG will be a
 Link
 -->
 
-However, the title of this project will still be ```GHOST Relay```. Cuz It's so cute!
+However, the title of this project will still be ```GHOST Relay```. Cuz It's so cute! :ghost:
 
 
 # GHOST Relay
 
 ![icon](https://github.com/twodude/ghost-relay/blob/master/images/icon.png)
 
-The ```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts which include inclusive-protocol, merkle-patricia proof, etc..
+The ```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts which include Inclusive-protocol, merkle-patricia proof, etc..
 
 > Based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
 
@@ -60,7 +60,7 @@ export interface Block extends BlockHeader {
 ### GHOST Protocol[[2]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 ![GHOST](https://github.com/twodude/ghost-relay/blob/master/images/GHOST.png)
 
-The GHOST(Greedy Heaviest Observed SubTree) protocol in Ethereum is designed for higher security under short block interval(time). GHOST includes uncle blocks' rewards of 87.5% and nephew's reward of 12.5% to solve centralization. But the Ethereum version of Ghost only goes down seven levels in the height of the blockchain.
+The GHOST(Greedy Heaviest Observed SubTree) protocol is designed for higher security under short block interval(time). GHOST includes uncle blocks' rewards of 87.5% and nephew's reward of 12.5% to solve centralization. But the Ethereum version of Ghost only goes down seven levels in the height of the blockchain.
 
 These are some rules that GHOST in Ethereum has to follow[[3]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 * A block must specify its parents and its number of Uncles.
@@ -81,7 +81,7 @@ Another deficiency of block chain protocols is that they favor more con- nected 
 
 ## Abstract
 
-```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract dApp. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core. 
+```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core. 
 
 **ToDo:**
 This implementation uses the [merkle-patricia proofs](https://github.com/zmitton/eth-proof) implemented by
@@ -94,11 +94,13 @@ These contracts will be able to verifiy merkle-patricia proofs about state, tran
 
 There is an Ethereum contract that stores all the other Ethereum chain's block headers relayed&mdash;submitted by users, or relayers. As you know, each block header contains committed transactions. Given a block header, anyone will be able to verify if a transaction is included or not. Now we can offer a transfer services from ETH_1 to ETH_2.
 
-Ghost relay is able to prespond blockchain reorganization(a.k.a. reorg) using GHOST protocol. Also it is able to prespond two sides reorg with GHOST and Ethereum's finality.
+Ghost relay is able to prespond blockchain reorganization(a.k.a. reorg) using Inclusive protocol. Also it is able to prespond two sides reorg with GHOST and Ethereum's finality. Obviously it is able to reduce storage size.
 
 
 ## Details
 
+
+<!--
 ### Tree
 
 Based on the following post[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
@@ -150,15 +152,7 @@ function getNextNode(bytes32 nodeId)
 
 Calculate the heavist subtree. Select main chain.   
 Return selected child block's hash.
-
-
-## Discussion
-
-### Ethereum Abandon the GHOST protocol?
-- https://ethereum.stackexchange.com/questions/38121/why-did-ethereum-abandon-the-ghost-protocol?noredirect=1&lq=1   
-- http://www.cs.huji.ac.il/~yoni_sompo/pubs/15/inclusive_full.pdf   
-- https://www.youtube.com/watch?v=57DCYtk0lWI   
-  - around 24 min.
+-->
 
 
 ## References
@@ -166,9 +160,7 @@ Return selected child block's hash.
 > [1] G. Wood, "Ethereum a secure decentralised generalised transaction ledger", 2014.   
 > [2] Sompolinsky Y., Zohar A., "Secure High-Rate Transaction Processing in Bitcoin", 2015.   
 > [3] https://www.cryptocompare.com/coins/guides/what-is-the-ghost-protocol-for-ethereum/   
-> [4] https://fc15.ifca.ai/preproceedings/paper_101.pdf   
-> [5] https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
-> [6] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
+> [4] https://fc15.ifca.ai/preproceedings/paper_101.pdf  
 
 
 ## License
