@@ -33,10 +33,10 @@ Ethereum does not use both ```GHOST protocol``` and ```Inclusive protocol```. To
 * Total difficulty is the [simple sum of block difficulty values](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850) without explicitly counting uncles. Difficulty is [computed based on parent difficulty and timestamp, block timestamp, and block number](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850), again without reference to uncles.
 
 ```go
-    externTd := new(big.Int).Add(block.Difficulty(), ptd)
+externTd := new(big.Int).Add(block.Difficulty(), ptd)
 ```
 ```go
-    expd := CalcDifficulty(config, header.Time.Uint64(), parent.Time.Uint64(), parent.Number, parent.Difficulty)
+expd := CalcDifficulty(config, header.Time.Uint64(), parent.Time.Uint64(), parent.Number, parent.Difficulty)
 ```
 
 * All of these except tiebreaking are consensus-critical, and so can be expected to be the same across all clients.
