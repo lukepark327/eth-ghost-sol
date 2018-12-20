@@ -86,7 +86,7 @@ Rougly in Inclusive,
 2. Non-conflicting transactions of blocks outside the main chain are included in the ledger. Also these blocks' miners receive some transaction fees.
 3. Miners of blocks outside the main chain receive some fraction of mining rewards.
 
-However, Ethereum use a modified version of the Inclusive protocol. In Ethereum, a new block references multiple predecessors (a parent and 0 or more uncles). While transactions in uncle blocks are not included in the ledger nor do their miners receive transaction fees. But uncle blocks' miners do receive some fraction of mining rewards[5].
+However, Ethereum use a modified version of the Inclusive protocol. In Ethereum, a new block references multiple predecessors (a parent and 0 or more uncles). While transactions in uncle blocks are not included in the ledger nor do their miners receive transaction fees. But uncle blocks' miners do receive some fraction of mining rewards[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 
 ## Abstract
