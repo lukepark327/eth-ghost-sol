@@ -94,7 +94,7 @@ These contracts will be able to verifiy merkle-patricia proofs about state, tran
 
 There is an Ethereum contract that stores all the other Ethereum chain's block headers relayed&mdash;submitted by users, or relayers. As you know, each block header contains committed transactions. Given a block header, anyone will be able to verify if a transaction is included or not. Now we can offer a transfer services from ETH_1 to ETH_2.
 
-Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem using Inclusive protocol. Also it is able to treat two sides reorg with GHOST and Ethereum's finality. Obviously it is able to reduce storage size.
+Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem using Inclusive protocol. Also it is able to treat two sides reorg with GHOST and Ethereum's finality. Obviously it is able to reduce storage size through pruning.
 
 
 ## Details
