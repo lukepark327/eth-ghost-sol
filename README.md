@@ -73,10 +73,11 @@ These are some rules that GHOST in Ethereum has to follow[[3]](https://github.co
 
 ### Inclusive Protocol[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 
-<!--
-We propose an alternative structure to the chain that allows for oper- ation at much higher rates. Our structure consists of a directed acyclic graph of blocks (the block DAG). The DAG structure is created by allow- ing blocks to reference multiple predecessors, and allows for more “for- giving” transaction acceptance rules that incorporate transactions even from seemingly conflicting blocks. Thus, larger blocks that take longer to propagate can be tolerated by the system, and transaction volumes can be increased.
-Another deficiency of block chain protocols is that they favor more con- nected nodes that spread their blocks faster—fewer of their blocks con- flict. We show that with our system the advantage of such highly con- nected miners is greatly reduced. On the negative side, attackers that attempt to maliciously reverse transactions can try to use the forgiving nature of the DAG structure to lower the costs of their attacks. We pro- vide a security analysis of the protocol and show that such attempts can be easily countered.
--->
+In the current Bitcoin protocol, every block form a tree due to forks in the network. But, in Inclusivce protocol, each block references a subset of previous blocks so they form a DAG(Directed Acyclic Graph).
+
+Inclusive-F, the Inclusive version of the chain selection rule, is defined like below algorithm. You can see the details in this paper[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
+
+![inclusive_algorithm](https://github.com/twodude/ghost-relay/blob/master/images/inclusive-f-algorithm.png)
 
 
 ## Abstract
