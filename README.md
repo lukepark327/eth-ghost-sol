@@ -6,6 +6,7 @@
 # EUREKA!
 
 Finally, I have understood the difference between ```GHOST protocol``` and ```Inclusive protocol```. Now the implementation is not based on ```GHOST protocol``` but ```Inclusive protocol```.
+
 I implemented the DAG structure on solidity. The implementation of DAG will be able to be widely used because it is written generically. Click [HERE]() to download it.
 <!--
 Link
