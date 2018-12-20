@@ -19,7 +19,7 @@ However, the title of this project will still be ```GHOST Relay```. Cuz It's so 
 
 ![icon](https://github.com/twodude/ghost-relay/blob/master/images/icon.png)
 
-The ```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts which includes Inclusive protocol, merkle proof, etc..
+The ```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts which include inclusive-protocol, merkle-patricia proof, etc..
 
 > Based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
 
