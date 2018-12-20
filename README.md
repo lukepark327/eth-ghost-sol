@@ -1,8 +1,13 @@
 # EUREKA!
 
-Finally, I understand the difference between ```Ghost Protocol``` and ```Inclusive Protocol```. The implementation now includes that ```Inclusive Protocol```. Therefore I implement the DAG structure on solidity. The implementation of DAG will be able to be widely used because it is written generically. Click HERE to download it.
+Finally, I understand the difference between ```GHOST protocol``` and ```Inclusive protocol```. The implementation now includes ```Inclusive protocol``` not ```GHOST protocol```.
 
-However, the title of this project will still be ```Ghost-relay``` Cuz It's so cute!
+Therefore I implement the DAG structure on solidity. The implementation of DAG will be able to be widely used because it is written generically. Click [HERE]() to download it.
+<!--
+Link
+-->
+
+However, the title of this project will still be ```GHOST Relay``` Cuz It's so cute!
 
 
 [![license](https://img.shields.io/github/license/twodude/ghost-relay.svg)](https://opensource.org/licenses/MIT)
