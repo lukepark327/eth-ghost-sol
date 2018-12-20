@@ -133,6 +133,7 @@ However, Ethereum use a modified version of the Inclusive protocol. In Ethereum,
 * But uncle blocks' miners do receive some fraction of mining rewards[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 
+<!--
 ## Abstract
 
 ```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core. 
@@ -153,8 +154,6 @@ Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem usi
 
 ## Details
 
-
-<!--
 ### Tree
 
 Based on the following post[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
@@ -206,10 +205,8 @@ function getNextNode(bytes32 nodeId)
 
 Calculate the heavist subtree. Select main chain.   
 Return selected child block's hash.
--->
 
 
-<!--
 ## Discussion
 ### Dose Ethereum abandon both GHOST protocol and Inclusive protocol?[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 * around 24 min.
