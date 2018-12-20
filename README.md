@@ -75,9 +75,18 @@ These are some rules that GHOST in Ethereum has to follow[[3]](https://github.co
 
 In the current Bitcoin protocol, every block form a tree due to forks in the network. But, in Inclusivce protocol, each block references a subset of previous blocks so they form a DAG(Directed Acyclic Graph).
 
-Inclusive-F, the Inclusive version of the chain selection rule, is defined like below algorithm. You can see the details in this paper[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
+Inclusive-F, the Inclusive version of the chain selection rule, is defined like below algorithm.
 
-![inclusive_algorithm](https://github.com/twodude/ghost-relay/blob/master/images/inclusive-f-algorithm.png)
+![inclusive_algorithm](https://github.com/twodude/ghost-relay/blob/master/images/inclusive-f.png)
+
+You can see the details in this paper[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+
+Rougly in Inclusive,
+1. A new block references multiple predecessors.
+2. Non-conflicting transactions of blocks outside the main chain are included in the ledger. Also these blocks' miners receive some transaction fees.
+3. Miners of blocks outside the main chain receive some fraction of mining rewards.
+
+However, Ethereum use a modified version of the Inclusive protocol. In Ethereum, a new block references multiple predecessors (a parent and 0 or more uncles). While transactions in uncle blocks are not included in the ledger nor do their miners receive transaction fees. But uncle blocks' miners do receive some fraction of mining rewards[5].
 
 
 ## Abstract
@@ -162,7 +171,7 @@ Return selected child block's hash.
 > [2] Sompolinsky Y., Zohar A., "Secure High-Rate Transaction Processing in Bitcoin", 2015.   
 > [3] https://www.cryptocompare.com/coins/guides/what-is-the-ghost-protocol-for-ethereum/   
 > [4] https://fc15.ifca.ai/preproceedings/paper_101.pdf  
-
+> [5] https://ethereum.stackexchange.com/questions/38121/why-did-ethereum-abandon-the-ghost-protocol
 
 ## License
 The GHOST Relay project is licensed under the [MIT](https://opensource.org/licenses/MIT), also included in our repository in the [LICENSE](https://github.com/twodude/ghost-relay/blob/master/LICENSE) file.
