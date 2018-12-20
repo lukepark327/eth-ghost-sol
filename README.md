@@ -1,3 +1,10 @@
+# EUREKA!
+
+Finally, I understand the difference between ```Ghost Protocol``` and ```Inclusive Protocol```. The implementation now includes that ```Inclusive Protocol```. Therefore I implement the DAG structure on solidity. The implementation of DAG will be able to be widely used because it is written generically. Click HERE to download it.
+
+However, the title of this project will still be ```Ghost-relay``` Cuz It's so cute!
+
+
 [![license](https://img.shields.io/github/license/twodude/ghost-relay.svg)](https://opensource.org/licenses/MIT)
 [![solidity](https://img.shields.io/badge/solidity-%5E0.5.1-brown.svg)](https://img.shields.io/badge/solidity-%5E0.5.1-brown.svg)
 [![node](https://img.shields.io/badge/node-10.14.1-yellow.svg)](https://nodejs.org/en/)
@@ -58,6 +65,14 @@ These are some rules that GHOST in Ethereum has to follow[[3]](https://github.co
 * For every Uncle included in the block the miner gets an additional 3.125% and the miner of of the Uncle receives 93.75% of a standard block reward.
 
 
+### Inclusive Protocol[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
+
+<!--
+We propose an alternative structure to the chain that allows for oper- ation at much higher rates. Our structure consists of a directed acyclic graph of blocks (the block DAG). The DAG structure is created by allow- ing blocks to reference multiple predecessors, and allows for more “for- giving” transaction acceptance rules that incorporate transactions even from seemingly conflicting blocks. Thus, larger blocks that take longer to propagate can be tolerated by the system, and transaction volumes can be increased.
+Another deficiency of block chain protocols is that they favor more con- nected nodes that spread their blocks faster—fewer of their blocks con- flict. We show that with our system the advantage of such highly con- nected miners is greatly reduced. On the negative side, attackers that attempt to maliciously reverse transactions can try to use the forgiving nature of the DAG structure to lower the costs of their attacks. We pro- vide a security analysis of the protocol and show that such attempts can be easily countered.
+-->
+
+
 ## Abstract
 
 ```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract dApp. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core. 
@@ -80,13 +95,13 @@ Ghost relay is able to prespond blockchain reorganization(a.k.a. reorg) using GH
 
 ### Tree
 
-Based on the following post[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+Based on the following post[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 ### ToDo: Pruning
 
 It requires too many fees(gases) to contain all tree's nodes, so we have to prune some useless branches. Fortunately, Ethereum adopts not GHOST but
 **modified GHOST protocol**
-which covers only seven levels in the height of blockchain, and requires ten confirmations to achieve finality[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+which covers only seven levels in the height of blockchain, and requires ten confirmations to achieve finality[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 It is possible to prune all the other branches more than ten times previously except a main-chain's one.
 
@@ -145,8 +160,9 @@ Return selected child block's hash.
 > [1] G. Wood, "Ethereum a secure decentralised generalised transaction ledger", 2014.   
 > [2] Sompolinsky Y., Zohar A., "Secure High-Rate Transaction Processing in Bitcoin", 2015.   
 > [3] https://www.cryptocompare.com/coins/guides/what-is-the-ghost-protocol-for-ethereum/   
-> [4] https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
-> [5] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
+> [4] https://fc15.ifca.ai/preproceedings/paper_101.pdf   
+> [5] https://ethereum.stackexchange.com/questions/13845/how-can-we-organize-storage-of-a-folder-or-object-tree-in-solidity   
+> [6] https://blog.ethereum.org/2015/09/14/on-slow-and-fast-block-times/   
 
 
 ## License
