@@ -3,13 +3,23 @@
 [![node](https://img.shields.io/badge/node-10.14.1-yellow.svg)](https://nodejs.org/en/)
 
 
+# OMG
+
+Ethereum does not use both ```GHOST protocol``` and ```Inclusive protocol```. Today's Ethereum is just following the longest chain rule[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+
+**Nick Johnson** who is core developer for the Ethereum Foundation said:
+* Ethereum [determines the longest chain based on the total difficulty](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L863), which is embedded in the block header. Ties are broken randomly.
+* Total difficulty is the [simple sum of block difficulty values](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850) without explicitly counting uncles. Difficulty is [computed based on parent difficulty and timestamp, block timestamp, and block number](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850), again without reference to uncles.
+* All of these except tiebreaking are consensus-critical, and so can be expected to be the same across all clients.
+
+
 # EUREKA!
 
 Finally, I have understood the difference between ```GHOST protocol``` and ```Inclusive protocol```. Now the implementation is not based on ```GHOST protocol``` but ```Inclusive protocol```.
 
-I implemented the DAG structure on solidity. The implementation of DAG will be able to be widely used because it is written generically. Click [HERE]() to download it.
+I implemented the DAG structure on solidity. The implementation of DAG will be able to be widely used because it is written generically. 
 <!--
-Link
+Click [HERE]() to download it.
 -->
 
 However, the title of this project will still be ```GHOST Relay```. Cuz It's so cute! :ghost:
@@ -172,9 +182,7 @@ Return selected child block's hash.
 
 ## Discussion
 
-### Dose Ethereum abandon both GHOST protocol and Inclusive protocol?
-
-* https://www.youtube.com/watch?v=57DCYtk0lWI
+### Dose Ethereum abandon both GHOST protocol and Inclusive protocol?[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
     * around 24 min.
     * He said *"Today's Ethereum is just following the longest chain rule"*.
 
@@ -185,7 +193,10 @@ Return selected child block's hash.
 > [2] Sompolinsky Y., Zohar A., "Secure High-Rate Transaction Processing in Bitcoin", 2015.   
 > [3] https://www.cryptocompare.com/coins/guides/what-is-the-ghost-protocol-for-ethereum/   
 > [4] https://fc15.ifca.ai/preproceedings/paper_101.pdf  
-> [5] https://ethereum.stackexchange.com/questions/38121/why-did-ethereum-abandon-the-ghost-protocol
+> [5] https://ethereum.stackexchange.com/questions/38121/why-did-ethereum-abandon-the-ghost-protocol   
+> [6] https://ethereum.stackexchange.com/questions/13378/what-is-the-exact-longest-chain-rule-implemented-in-the-ethereum-homestead-p   
+> [7] https://www.youtube.com/watch?v=57DCYtk0lWI   
+
 
 ## License
 The GHOST Relay project is licensed under the [MIT](https://opensource.org/licenses/MIT), also included in our repository in the [LICENSE](https://github.com/twodude/ghost-relay/blob/master/LICENSE) file.
