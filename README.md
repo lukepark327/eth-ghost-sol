@@ -9,7 +9,36 @@ Ethereum does not use both ```GHOST protocol``` and ```Inclusive protocol```. To
 
 **Nick Johnson** who is core developer for the Ethereum Foundation said:
 * Ethereum [determines the longest chain based on the total difficulty](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L863), which is embedded in the block header. Ties are broken randomly.
+
+```go
+    ...
+    // If the total difficulty is higher than our known, add it to the canonical chain
+	// Second clause in the if statement reduces the vulnerability to selfish mining.
+	// Please refer to http://www.cs.cornell.edu/~ie53/publications/btcProcFC.pdf
+	if externTd.Cmp(localTd) > 0 || (externTd.Cmp(localTd) == 0 && mrand.Float64() < 0.5) {
+		// Reorganise the chain if the parent is not the head block
+		if block.ParentHash() != self.currentBlock.Hash() {
+			if err := self.reorg(self.currentBlock, block); err != nil {
+				return NonStatTy, err
+			}
+		}
+		self.insert(block) // Insert the block as the new head of the chain
+		status = CanonStatTy
+	} else {
+		status = SideStatTy
+	}
+    ...
+```
+
 * Total difficulty is the [simple sum of block difficulty values](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850) without explicitly counting uncles. Difficulty is [computed based on parent difficulty and timestamp, block timestamp, and block number](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850), again without reference to uncles.
+
+```go
+    externTd := new(big.Int).Add(block.Difficulty(), ptd)
+```
+```go
+    expd := CalcDifficulty(config, header.Time.Uint64(), parent.Time.Uint64(), parent.Number, parent.Difficulty)
+```
+
 * All of these except tiebreaking are consensus-critical, and so can be expected to be the same across all clients.
 
 
@@ -180,11 +209,12 @@ Return selected child block's hash.
 -->
 
 
+<!--
 ## Discussion
-
 ### Dose Ethereum abandon both GHOST protocol and Inclusive protocol?[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
-    * around 24 min.
-    * He said *"Today's Ethereum is just following the longest chain rule"*.
+* around 24 min.
+* He said *"Today's Ethereum is just following the longest chain rule"*.
+-->
 
 
 ## References
