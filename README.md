@@ -21,8 +21,10 @@ However, the title of this project will still be ```GHOST Relay```. Cuz It's so 
 
 The ```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts which include Inclusive-protocol, merkle-patricia proof, etc..
 
+<!--
+No more reference Peace Relay
 > Based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
-
+-->
 
 ## Backgrounds
 
@@ -86,7 +88,10 @@ Rougly in Inclusive,
 * Non-conflicting transactions of blocks outside the main chain are included in the ledger. Also these blocks' miners receive some transaction fees.
 * Miners of blocks outside the main chain receive some fraction of mining rewards.
 
-However, Ethereum use a modified version of the Inclusive protocol. In Ethereum, a new block references multiple predecessors (a parent and 0 or more uncles). While transactions in uncle blocks are not included in the ledger nor do their miners receive transaction fees. But uncle blocks' miners do receive some fraction of mining rewards[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+However, Ethereum use a modified version of the Inclusive protocol. In Ethereum,
+* A new block references multiple predecessors (a parent and 0 or more uncles).
+* While transactions in uncle blocks are not included in the ledger nor do their miners receive transaction fees.
+* But uncle blocks' miners do receive some fraction of mining rewards[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 
 ## Abstract
@@ -163,6 +168,15 @@ function getNextNode(bytes32 nodeId)
 Calculate the heavist subtree. Select main chain.   
 Return selected child block's hash.
 -->
+
+
+## Discussion
+
+### Dose Ethereum abandon both GHOST protocol and Inclusive protocol?
+
+* https://www.youtube.com/watch?v=57DCYtk0lWI
+    * around 24 min.
+    * He said "Today's Ethereum is just following the longest chain rule".
 
 
 ## References
