@@ -82,9 +82,9 @@ Inclusive-F, the Inclusive version of the chain selection rule, is defined like 
 You can see the details in this paper[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 Rougly in Inclusive,
-1. A new block references multiple predecessors.
-2. Non-conflicting transactions of blocks outside the main chain are included in the ledger. Also these blocks' miners receive some transaction fees.
-3. Miners of blocks outside the main chain receive some fraction of mining rewards.
+* A new block references multiple predecessors.
+* Non-conflicting transactions of blocks outside the main chain are included in the ledger. Also these blocks' miners receive some transaction fees.
+* Miners of blocks outside the main chain receive some fraction of mining rewards.
 
 However, Ethereum use a modified version of the Inclusive protocol. In Ethereum, a new block references multiple predecessors (a parent and 0 or more uncles). While transactions in uncle blocks are not included in the ledger nor do their miners receive transaction fees. But uncle blocks' miners do receive some fraction of mining rewards[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
