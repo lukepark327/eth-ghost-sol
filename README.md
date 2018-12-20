@@ -6,7 +6,6 @@
 # EUREKA!
 
 Finally, I have understood the difference between ```GHOST protocol``` and ```Inclusive protocol```. Now the implementation is not based on ```GHOST protocol``` but ```Inclusive protocol```.
-
 I implemented the DAG structure on solidity. The implementation of DAG will be able to be widely used because it is written generically. Click [HERE]() to download it.
 <!--
 Link
@@ -176,7 +175,7 @@ Return selected child block's hash.
 
 * https://www.youtube.com/watch?v=57DCYtk0lWI
     * around 24 min.
-    * He said "Today's Ethereum is just following the longest chain rule".
+    * He said *"Today's Ethereum is just following the longest chain rule"*.
 
 
 ## References
