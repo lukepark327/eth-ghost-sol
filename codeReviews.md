@@ -19,7 +19,6 @@ func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err 
 
 - Calculate the total difficulty of the block. [```GetTd```](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#gettd) retrieves a block's total difficulty in the canonical chain from the database by hash and number, caching it if found.
 
-Ethereum determines the longest chain based on the total difficulty, which is embedded in the block header. Ties are broken randomly.
 ```go
 	ptd := self.GetTd(block.ParentHash(), block.NumberU64()-1)
 	if ptd == nil {
