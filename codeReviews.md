@@ -2,23 +2,32 @@
 
 Ethereum determines the longest chain based on the total difficulty, which is embedded in the block header. Ties are broken randomly.
 
+Go https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L863 to see more information.
+
 - ```WriteBlock()``` writes the block to the chain.
 ```go
 func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err error) {
 ```
 
-- ```wg``` is ```sync.WaitGroup``` in BlockChain struct which is chain processing wait group for shutting down
+- ```wg``` is ```sync.WaitGroup``` in [BlockChain struct](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#blockchain-struct) which is chain processing wait group for shutting down
 ```go
 	self.wg.Add(1)
-	defer self.wg.Done()  // reserve termination of WaitGroup
+	
+	// reserve termination of WaitGroup
+	defer self.wg.Done()
 ```
 
+- Calculate the total difficulty of the block. ```GetTd``` is 
 ```go
-	// Calculate the total difficulty of the block
 	ptd := self.GetTd(block.ParentHash(), block.NumberU64()-1)
 	if ptd == nil {
 		return NonStatTy, ParentError(block.ParentHash())
 	}
+```
+
+
+
+```go
 	// Make sure no inconsistent state is leaked during insertion
 	self.mu.Lock()
 	defer self.mu.Unlock()
@@ -109,5 +118,15 @@ type BlockChain struct {
 	vmConfig  vm.Config
 
 	badBlocks *lru.Cache // Bad block cache
+}
+```
+
+### GetTd
+
+```go
+// GetTd retrieves a block's total difficulty in the canonical chain from the
+// database by hash and number, caching it if found.
+func (self *BlockChain) GetTd(hash common.Hash, number uint64) *big.Int {
+	return self.hc.GetTd(hash, number)
 }
 ```
