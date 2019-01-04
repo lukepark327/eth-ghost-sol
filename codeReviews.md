@@ -10,14 +10,17 @@ func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err 
 ```
 
 - ```wg``` is ```sync.WaitGroup``` in [BlockChain struct](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#blockchain-struct) which is chain processing wait group for shutting down
+
+- Reserve termination of WaitGroup.
+
 ```go
 	self.wg.Add(1)
-	
-	// reserve termination of WaitGroup
 	defer self.wg.Done()
 ```
 
 - Calculate the total difficulty of the block. [```GetTd```](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#gettd) retrieves a block's total difficulty in the canonical chain from the database by hash and number, caching it if found.
+
+- Stop if error occurs.
 
 ```go
 	ptd := self.GetTd(block.ParentHash(), block.NumberU64()-1)
@@ -26,12 +29,16 @@ func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err 
 	}
 ```
 
+- Make sure no inconsistent state is leaked during insertion. ```mu``` is ```sync.RWMutex``` in [BlockChain struct](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#blockchain-struct) which is global mutex for locking chain operations.
 
+- Reserve unlocking mutex.
 
 ```go
-	// Make sure no inconsistent state is leaked during insertion
 	self.mu.Lock()
 	defer self.mu.Unlock()
+```
+
+```go
 
 	localTd := self.GetTd(self.currentBlock.Hash(), self.currentBlock.NumberU64())
 	externTd := new(big.Int).Add(block.Difficulty(), ptd)
