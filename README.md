@@ -41,6 +41,7 @@ Ethereum does use neither ```GHOST protocol``` nor ```Inclusive protocol```. Tod
 
 * All of these except tiebreaking are consensus-critical, and so can be expected to be the same across all clients.
 
+See the details [here](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md).
 
 # EUREKA!
 
