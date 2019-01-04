@@ -25,7 +25,7 @@ func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err 
 
 ### Calculate the total diff.
 
-- Calculate the total difficulty of the block. [```GetTd```](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#gettd) retrieves a block's total difficulty in the canonical chain from the database by hash and number, caching it if found.
+- Calculate the total difficulty of the block. ```GetTd``` retrieves a block's total difficulty in the canonical chain from the database by hash and number, caching it if found.
 
 - Stop if error occurs.
 
@@ -47,31 +47,57 @@ func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err 
 	defer self.mu.Unlock()
 ```
 
-```go
+### Calculate the total diff. of local blockchain and external blockchain
 
+```go
 	localTd := self.GetTd(self.currentBlock.Hash(), self.currentBlock.NumberU64())
 	externTd := new(big.Int).Add(block.Difficulty(), ptd)
+```
 
-	// Irrelevant of the canonical status, write the block itself to the database
+### Write the block to the database
+
+```go
 	if err := self.hc.WriteTd(block.Hash(), block.NumberU64(), externTd); err != nil {
 		log.Crit("Failed to write block total difficulty", "err", err)
 	}
 	if err := WriteBlock(self.chainDb, block); err != nil {
 		log.Crit("Failed to write block contents", "err", err)
 	}
+```
 
-	// If the total difficulty is higher than our known, add it to the canonical chain
-	// Second clause in the if statement reduces the vulnerability to selfish mining.
-	// Please refer to http://www.cs.cornell.edu/~ie53/publications/btcProcFC.pdf
+### Longest Chain Rule
+
+- If the total difficulty is higher than our known, add it to the canonical chain. Second clause in the if statement reduces the vulnerability to selfish mining. A de facto statement is ```externTd.Cmp(localTd) >= 0```.
+
+- Ties are broken randomly by ```mrand.Float64() < 0.5```.
+
+```go
 	if externTd.Cmp(localTd) > 0 || (externTd.Cmp(localTd) == 0 && mrand.Float64() < 0.5) {
-		// Reorganise the chain if the parent is not the head block
+```
+
+### Reorganise
+
+- Reorganise the chain if the parent is not the head block.
+
+```go
 		if block.ParentHash() != self.currentBlock.Hash() {
 			if err := self.reorg(self.currentBlock, block); err != nil {
 				return NonStatTy, err
 			}
 		}
-		self.insert(block) // Insert the block as the new head of the chain
+```
+
+### Insert the block
+
+- Insert the block as the new head of the chain.
+
+```go
+		self.insert(block)
 		status = CanonStatTy
+```
+
+### residues
+```go
 	} else {
 		status = SideStatTy
 	}
@@ -135,17 +161,5 @@ type BlockChain struct {
 	vmConfig  vm.Config
 
 	badBlocks *lru.Cache // Bad block cache
-}
-```
-
-### GetTd
-
-- ```hc``` is ```*HeaderChain``` in [BlockChain struct](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#blockchain-struct).
-
-```go
-// GetTd retrieves a block's total difficulty in the canonical chain from the
-// database by hash and number, caching it if found.
-func (self *BlockChain) GetTd(hash common.Hash, number uint64) *big.Int {
-	return self.hc.GetTd(hash, number)
 }
 ```
