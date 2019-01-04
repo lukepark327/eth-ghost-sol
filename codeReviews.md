@@ -110,9 +110,9 @@ func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err 
 
 ## Difficulty Adjustment Algorithm
 
-- ```CalcDifficulty()``` is the difficulty adjustment algorithm. It returns the difficulty by given the parent block's time and difficulty that a new block should have when created at time.
+```CalcDifficulty()``` is the difficulty adjustment algorithm. It returns the difficulty by given the parent block's time and difficulty that a new block should have when created at time.
 
-- Difficulty is computed based on parent difficulty and timestamp, block timestamp, and block number, without reference to uncles. Also Total difficulty ```Td``` is the simple sum of block difficulty values without explicitly counting uncles.
+Difficulty is computed based on parent difficulty and timestamp, block timestamp, and block number, without reference to uncles. Also Total difficulty ```Td``` is the simple sum of block difficulty values without explicitly counting uncles.
 
 ```go
 func CalcDifficulty(config *params.ChainConfig, time, parentTime uint64, parentNumber, parentDiff *big.Int) *big.Int {
