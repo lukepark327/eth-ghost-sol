@@ -12,7 +12,7 @@ Ethereum does use neither ```GHOST protocol``` nor ```Inclusive protocol```. Tod
 
 	```go
 	    ...
-	    // If the total difficulty is higher than our known, add it to the canonical chain
+	    	// If the total difficulty is higher than our known, add it to the canonical chain
 		// Second clause in the if statement reduces the vulnerability to selfish mining.
 		// Please refer to http://www.cs.cornell.edu/~ie53/publications/btcProcFC.pdf
 		if externTd.Cmp(localTd) > 0 || (externTd.Cmp(localTd) == 0 && mrand.Float64() < 0.5) {
@@ -30,7 +30,7 @@ Ethereum does use neither ```GHOST protocol``` nor ```Inclusive protocol```. Tod
 	    ...
 	```
 
-* Total difficulty is the [simple sum of block difficulty values](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850) without explicitly counting uncles. Difficulty is [computed based on parent difficulty and timestamp, block timestamp, and block number](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850), again without reference to uncles.
+* Total difficulty is the [simple sum of block difficulty values](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850) without explicitly counting uncles. Difficulty is [computed based on parent difficulty and timestamp, block timestamp, and block number](https://github.com/ethereum/go-ethereum/blob/f3579f6460ed90a29cca77ffcbcd8047427b686b/core/block_validator.go#L225), again without reference to uncles.
 
 	```go
 	externTd := new(big.Int).Add(block.Difficulty(), ptd)
