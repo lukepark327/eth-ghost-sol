@@ -4,12 +4,17 @@ Ethereum determines the longest chain based on the total difficulty, which is em
 
 Go https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L863 to see more information.
 
+### Definition of function
+
 - ```WriteBlock()``` writes the block to the chain.
+
 ```go
 func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err error) {
 ```
 
-- ```wg``` is ```sync.WaitGroup``` in [BlockChain struct](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#blockchain-struct) which is chain processing wait group for shutting down
+### WaitGroup
+
+- ```wg``` is ```sync.WaitGroup``` in [BlockChain struct](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#blockchain-struct) which is chain processing wait group for shutting down.
 
 - Reserve termination of WaitGroup.
 
@@ -17,6 +22,8 @@ func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err 
 	self.wg.Add(1)
 	defer self.wg.Done()
 ```
+
+### Calculate the total diff.
 
 - Calculate the total difficulty of the block. [```GetTd```](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#gettd) retrieves a block's total difficulty in the canonical chain from the database by hash and number, caching it if found.
 
@@ -28,6 +35,8 @@ func (self *BlockChain) WriteBlock(block *types.Block) (status WriteStatus, err 
 		return NonStatTy, ParentError(block.ParentHash())
 	}
 ```
+
+### Mutex
 
 - Make sure no inconsistent state is leaked during insertion. ```mu``` is ```sync.RWMutex``` in [BlockChain struct](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#blockchain-struct) which is global mutex for locking chain operations.
 
@@ -130,6 +139,8 @@ type BlockChain struct {
 ```
 
 ### GetTd
+
+- ```hc``` is ```*HeaderChain``` in [BlockChain struct](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md#blockchain-struct).
 
 ```go
 // GetTd retrieves a block's total difficulty in the canonical chain from the
