@@ -19,28 +19,24 @@ No more reference Peace Relay
 
 ```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core.
 
-We use the ```modified inclusive protocol``` in Ethereum for a reward system[[8]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)., and the ```longest chain rule``` for a chain-selection system.
+We use the ```modified inclusive protocol``` in Ethereum for rewards system[[8]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)., and the ```longest chain rule``` for a chain-selection system.
 
 This implementation uses the [merkle-patricia proofs](https://github.com/zmitton/eth-proof) implemented by
 *Zac Mitton*.
 These contracts will be able to verifiy merkle-patricia proofs about state, transactions, or receipts within specific blocks.
 
 
-<!--
-
 ## Overview
 ![overview](https://github.com/twodude/ghost-relay/blob/master/images/overview.png)
 
 There is an Ethereum contract that stores all the other Ethereum chain's block headers relayed&mdash;submitted by users, or relayers. As you know, each block header contains committed transactions. Given a block header, anyone will be able to verify if a transaction is included or not. Now we can offer a transfer services from ETH_1 to ETH_2.
 
-Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem using Inclusive protocol. Also it is able to treat two sides reorg with GHOST and Ethereum's finality. Obviously it is able to reduce storage size through pruning.
+Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem using the longest chain rule. Also it is able to treat two sides reorg because the smart contract selects confirmed block.
 
 
 ## Details
 
-### Tree
-
-Based on the following post[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+### ToDo: Rewards
 
 ### ToDo: Pruning
 
@@ -49,6 +45,7 @@ It requires too many fees(gases) to contain all nodes, so we have to prune some 
 It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
 
 
+<!--
 ## How to Use :: ghost.sol
 
 ### newNode
@@ -87,7 +84,6 @@ function getNextNode(bytes32 nodeId)
 
 Calculate the heavist subtree. Select main chain.   
 Return selected child block's hash.
-
 -->
 
 
