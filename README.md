@@ -19,7 +19,7 @@ No more reference Peace Relay
 
 ```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core.
 
-We use the ```modified inclusive protocol``` in Ethereum for rewards system[[8]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)., and the ```longest chain rule``` for a chain-selection system.
+We use the ```modified inclusive protocol``` in Ethereum for rewards system[[8]](https://github.com/twodude/ghost-relay/blob/master/README.md#references) and the ```longest chain rule``` for a chain-selection system.
 
 This implementation uses the [merkle-patricia proofs](https://github.com/zmitton/eth-proof) implemented by
 *Zac Mitton*.
