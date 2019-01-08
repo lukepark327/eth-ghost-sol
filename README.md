@@ -38,6 +38,8 @@ Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem usi
 
 ## Details
 
+### ToDo: Merkle Proof
+
 ### ToDo: Rewards
 
 ### ToDo: Pruning
@@ -46,6 +48,8 @@ It requires too many fees(gases) to contain all nodes, so we have to prune some 
 
 It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
 
+
+## ToDo: How to Use :: longest.sol
 
 <!--
 ## How to Use :: ghost.sol
