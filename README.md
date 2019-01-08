@@ -3,6 +3,10 @@
 [![node](https://img.shields.io/badge/node-10.14.1-yellow.svg)](https://nodejs.org/en/)
 
 
+# The Longest Chain Rule
+[[8]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
+
+
 # OMG
 
 Ethereum does use neither ```GHOST protocol``` nor ```Inclusive protocol```. Today's Ethereum is just following the ```longest chain``` rule[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
@@ -224,6 +228,7 @@ Return selected child block's hash.
 > [5] https://ethereum.stackexchange.com/questions/38121/why-did-ethereum-abandon-the-ghost-protocol   
 > [6] https://ethereum.stackexchange.com/questions/13378/what-is-the-exact-longest-chain-rule-implemented-in-the-ethereum-homestead-p   
 > [7] https://www.youtube.com/watch?v=57DCYtk0lWI   
+> [8] https://github.com/ethereum/go-ethereum/blob/master/consensus/ethash/consensus.go#L186   
 
 
 ## License
