@@ -3,63 +3,6 @@
 [![node](https://img.shields.io/badge/node-10.14.1-yellow.svg)](https://nodejs.org/en/)
 
 
-# The Next Step
-
-We use the ```modified inclusive protocol``` in Ethereum for a reward system(ToDo), and the ```longest chain rule``` for a chain-selection system. See the following link if you want details[[8]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
-
-
-# OMG
-
-Ethereum does use neither ```GHOST protocol``` nor ```Inclusive protocol```. Today's Ethereum is just following the ```longest chain``` rule[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
-
-**Nick Johnson** who is core developer for the Ethereum Foundation said:
-* Ethereum [determines the longest chain based on the total difficulty](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L863), which is embedded in the block header. Ties are broken randomly.
-
-	```go
-	    ...
-	    	// If the total difficulty is higher than our known, add it to the canonical chain
-		// Second clause in the if statement reduces the vulnerability to selfish mining.
-		// Please refer to http://www.cs.cornell.edu/~ie53/publications/btcProcFC.pdf
-		if externTd.Cmp(localTd) > 0 || (externTd.Cmp(localTd) == 0 && mrand.Float64() < 0.5) {
-			// Reorganise the chain if the parent is not the head block
-			if block.ParentHash() != self.currentBlock.Hash() {
-				if err := self.reorg(self.currentBlock, block); err != nil {
-					return NonStatTy, err
-				}
-			}
-			self.insert(block) // Insert the block as the new head of the chain
-			status = CanonStatTy
-		} else {
-			status = SideStatTy
-		}
-	    ...
-	```
-
-* Total difficulty is the [simple sum of block difficulty values](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850) without explicitly counting uncles. Difficulty is [computed based on parent difficulty and timestamp, block timestamp, and block number](https://github.com/ethereum/go-ethereum/blob/f3579f6460ed90a29cca77ffcbcd8047427b686b/core/block_validator.go#L225), again without reference to uncles.
-
-	```go
-	externTd := new(big.Int).Add(block.Difficulty(), ptd)
-	```
-	```go
-	expd := CalcDifficulty(config, header.Time.Uint64(), parent.Time.Uint64(), parent.Number, parent.Difficulty)
-	```
-
-* All of these except tiebreaking are consensus-critical, and so can be expected to be the same across all clients.
-
-See the details [here](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md).
-
-# EUREKA!
-
-Finally, I have understood the difference between ```GHOST protocol``` and ```Inclusive protocol```. Now the implementation is not based on ```GHOST protocol``` but ```Inclusive protocol```.
-
-I implemented the DAG structure on solidity. The implementation of DAG will be able to be widely used because it is written generically. 
-<!--
-Click [HERE]() to download it.
--->
-
-However, the title of this project will still be ```GHOST Relay```. Cuz It's so cute! :ghost:
-
-
 # GHOST Relay
 
 ![icon](https://github.com/twodude/ghost-relay/blob/master/images/icon.png)
@@ -70,6 +13,83 @@ The ```Ghost relay``` is a system that allow of cross-EVM-chain communication us
 No more reference Peace Relay
 > Based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
 -->
+
+
+## Abstact
+
+```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core.
+
+We use the ```modified inclusive protocol``` in Ethereum for a reward system[[8]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)., and the ```longest chain rule``` for a chain-selection system.
+
+This implementation uses the [merkle-patricia proofs](https://github.com/zmitton/eth-proof) implemented by
+*Zac Mitton*.
+These contracts will be able to verifiy merkle-patricia proofs about state, transactions, or receipts within specific blocks.
+
+
+<!--
+
+## Overview
+![overview](https://github.com/twodude/ghost-relay/blob/master/images/overview.png)
+
+There is an Ethereum contract that stores all the other Ethereum chain's block headers relayed&mdash;submitted by users, or relayers. As you know, each block header contains committed transactions. Given a block header, anyone will be able to verify if a transaction is included or not. Now we can offer a transfer services from ETH_1 to ETH_2.
+
+Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem using Inclusive protocol. Also it is able to treat two sides reorg with GHOST and Ethereum's finality. Obviously it is able to reduce storage size through pruning.
+
+
+## Details
+
+### Tree
+
+Based on the following post[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+
+### ToDo: Pruning
+
+It requires too many fees(gases) to contain all nodes, so we have to prune some useless subgraphs. Fortunately, Ethereum requires ten confirmations to achieve finality[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+
+It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
+
+
+## How to Use :: ghost.sol
+
+### newNode
+```solidity
+function newNode(
+        bytes32 BlockHash,
+        bytes32 prevBlockHash,
+        bytes32 stateRoot,
+        bytes32 txRoot,
+        bytes32 receiptRoot
+    ) 
+    public
+    returns(bytes32 newNodeId)
+```
+
+Register a new node for blockchain(tree structure).   
+Return new block's hash.
+
+### pruneBranch
+```solidity
+function pruneBranch(bytes32 nodeId)
+    public
+    returns(bool success)
+```
+
+Delete a branch.   
+Return true/false.
+
+### getNextNode
+```solidity
+function getNextNode(bytes32 nodeId)
+    public
+    view
+    returns(bytes32 childId)
+```
+
+Calculate the heavist subtree. Select main chain.   
+Return selected child block's hash.
+
+-->
+
 
 ## Backgrounds
 
@@ -139,83 +159,53 @@ However, Ethereum use a modified version of the Inclusive protocol. In Ethereum,
 * But uncle blocks' miners do receive some fraction of mining rewards[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 
-<!--
-## Abstract
-
-```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core. 
-
-**ToDo:**
-This implementation uses the [merkle-patricia proofs](https://github.com/zmitton/eth-proof) implemented by
-*Zac Mitton*.
-These contracts will be able to verifiy merkle-patricia proofs about state, transactions, or receipts within specific blocks.
-
-
-## Overview
-![overview](https://github.com/twodude/ghost-relay/blob/master/images/overview.png)
-
-There is an Ethereum contract that stores all the other Ethereum chain's block headers relayed&mdash;submitted by users, or relayers. As you know, each block header contains committed transactions. Given a block header, anyone will be able to verify if a transaction is included or not. Now we can offer a transfer services from ETH_1 to ETH_2.
-
-Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem using Inclusive protocol. Also it is able to treat two sides reorg with GHOST and Ethereum's finality. Obviously it is able to reduce storage size through pruning.
-
-
-## Details
-
-### Tree
-
-Based on the following post[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
-
-### ToDo: Pruning
-
-It requires too many fees(gases) to contain all nodes, so we have to prune some useless subgraphs. Fortunately, Ethereum requires ten confirmations to achieve finality[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
-
-It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
-
-
-## How to Use :: ghost.sol
-
-### newNode
-```solidity
-function newNode(
-        bytes32 BlockHash,
-        bytes32 prevBlockHash,
-        bytes32 stateRoot,
-        bytes32 txRoot,
-        bytes32 receiptRoot
-    ) 
-    public
-    returns(bytes32 newNodeId)
-```
-
-Register a new node for blockchain(tree structure).   
-Return new block's hash.
-
-### pruneBranch
-```solidity
-function pruneBranch(bytes32 nodeId)
-    public
-    returns(bool success)
-```
-
-Delete a branch.   
-Return true/false.
-
-### getNextNode
-```solidity
-function getNextNode(bytes32 nodeId)
-    public
-    view
-    returns(bytes32 childId)
-```
-
-Calculate the heavist subtree. Select main chain.   
-Return selected child block's hash.
-
-
 ## Discussion
 ### Dose Ethereum abandon both GHOST protocol and Inclusive protocol?[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
+
 * around 24 min.
 * He said *"Today's Ethereum is just following the longest chain rule"*.
--->
+
+Yes. Ethereum abandons both things but adopts the longest chain rule.
+
+### So, what protocol does Ethereum use?
+
+Ethereum does use neither ```GHOST protocol``` nor ```Inclusive protocol```. Today's Ethereum is just following the ```longest chain``` rule[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+
+**Nick Johnson** who is core developer for the Ethereum Foundation said:
+* Ethereum [determines the longest chain based on the total difficulty](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L863), which is embedded in the block header. Ties are broken randomly.
+
+	```go
+	    ...
+	    	// If the total difficulty is higher than our known, add it to the canonical chain
+		// Second clause in the if statement reduces the vulnerability to selfish mining.
+		// Please refer to http://www.cs.cornell.edu/~ie53/publications/btcProcFC.pdf
+		if externTd.Cmp(localTd) > 0 || (externTd.Cmp(localTd) == 0 && mrand.Float64() < 0.5) {
+			// Reorganise the chain if the parent is not the head block
+			if block.ParentHash() != self.currentBlock.Hash() {
+				if err := self.reorg(self.currentBlock, block); err != nil {
+					return NonStatTy, err
+				}
+			}
+			self.insert(block) // Insert the block as the new head of the chain
+			status = CanonStatTy
+		} else {
+			status = SideStatTy
+		}
+	    ...
+	```
+
+* Total difficulty is the [simple sum of block difficulty values](https://github.com/ethereum/go-ethereum/blob/525116dbff916825463931361f75e75e955c12e2/core/blockchain.go#L850) without explicitly counting uncles. Difficulty is [computed based on parent difficulty and timestamp, block timestamp, and block number](https://github.com/ethereum/go-ethereum/blob/f3579f6460ed90a29cca77ffcbcd8047427b686b/core/block_validator.go#L225), again without reference to uncles.
+
+	```go
+	externTd := new(big.Int).Add(block.Difficulty(), ptd)
+	```
+	```go
+	expd := CalcDifficulty(config, header.Time.Uint64(), parent.Time.Uint64(), parent.Number, parent.Difficulty)
+	```
+
+* All of these except tiebreaking are consensus-critical, and so can be expected to be the same across all clients.
+
+See the details of the above code [here](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md).
 
 
 ## References
