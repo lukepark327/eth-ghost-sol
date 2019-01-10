@@ -5,6 +5,7 @@ contract dag {
     struct BlockHeader {
         bool        isNode;
         uint256     farFromGenesis;
+        address     creator;
         bytes32     blockHash;  
         bytes32     prevBlockHash;
         bytes32[]   uncleBlockHashs;
@@ -163,6 +164,14 @@ contract dag {
         return blocks[nodeId].isNode;
     }
     
+    function createdBy(bytes32 nodeId)
+        public
+        view
+        returns(address isIndeed)
+    {
+        return blocks[nodeId].creator;
+    }
+    
     /*
         private functions
     */
@@ -179,11 +188,11 @@ contract dag {
         returns(uint256 depth)
     {
         if(height == 0) {
-            blocks[_blockHash] = BlockHeader(true, 0, _blockHash, _prevBlockHash, _uncleBlockHashs, _stateRoot, _txRoot, _receiptRoot);
+            blocks[_blockHash] = BlockHeader(true, 0, msg.sender, _blockHash, _prevBlockHash, _uncleBlockHashs, _stateRoot, _txRoot, _receiptRoot);
             return 0;
         }
         else {
-            blocks[_blockHash] = BlockHeader(true, blocks[_prevBlockHash].farFromGenesis + 1, _blockHash, _prevBlockHash, _uncleBlockHashs, _stateRoot, _txRoot, _receiptRoot);
+            blocks[_blockHash] = BlockHeader(true, blocks[_prevBlockHash].farFromGenesis + 1, msg.sender, _blockHash, _prevBlockHash, _uncleBlockHashs, _stateRoot, _txRoot, _receiptRoot);
             return blocks[_prevBlockHash].farFromGenesis + 1;
         }
     }
