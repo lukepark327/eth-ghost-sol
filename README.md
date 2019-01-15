@@ -9,11 +9,7 @@
 
 The ```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts which include Inclusive-protocol, merkle-patricia proof, the longest chain rule etc..
 
-<!--
-No more reference Peace Relay
 > Based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
--->
-
 
 ## Abstact
 
@@ -27,6 +23,7 @@ These contracts will be able to verifiy merkle-patricia proofs about state, tran
 
 
 ## Overview
+
 <!--
 ![overview](https://github.com/twodude/ghost-relay/blob/master/images/overview.png)
 -->
@@ -42,12 +39,13 @@ Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem usi
 
 ### ToDo: Rewards
 
-### ToDo: Pruning
+### Pruning
 
-It requires too many fees(gases) to contain all nodes, so we have to prune some useless subgraphs. Fortunately, Ethereum requires ten confirmations to achieve finality[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+We do not need to prune graphs. It is better not to do actually. You pay for updating the data in storage, but mapping lookups are constant. There is no null in Solidity. Everything is created with a default zero value corresponding to the data type (0 for ints, 0x0 for addresses, false for bool, etc). Deleting an element is the same as setting the value to 0(updating)[9].
 
-It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
-
+<!--
+It requires too many fees(gases) to contain all nodes, so we have to prune some useless subgraphs. Fortunately, Ethereum requires ten confirmations to achieve finality[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references). It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
+-->
 
 ## ToDo: How to Use :: longest.sol
 
@@ -95,9 +93,9 @@ Return selected child block's hash.
 -->
 
 
-## Backgrounds
+# Backgrounds
 
-### Ethereum Header[[1]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
+## Ethereum Header[[1]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 ![ethereum header](https://github.com/twodude/ghost-relay/blob/master/images/ethereum%20header.jpg)
 
 Also you can see block header features in web3.js&mdash;Ethereum JavaScript API.
@@ -128,7 +126,7 @@ export interface Block extends BlockHeader {
 }
 ```
 
-### GHOST Protocol[[2]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
+## GHOST Protocol[[2]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 ![GHOST](https://github.com/twodude/ghost-relay/blob/master/images/GHOST.png)
 
 The GHOST(Greedy Heaviest Observed SubTree) protocol is designed for higher security under short block interval(time). GHOST includes uncle blocks' rewards of 87.5% and nephew's reward of 12.5% to solve centralization. But the Ethereum version of Ghost only goes down seven levels in the height of the blockchain.
@@ -142,7 +140,7 @@ These are some rules that GHOST in Ethereum has to follow[[3]](https://github.co
 * For every Uncle included in the block the miner gets an additional 3.125% and the miner of of the Uncle receives 93.75% of a standard block reward.
 
 
-### Inclusive Protocol[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
+## Inclusive Protocol[[4]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 
 In the current Bitcoin protocol, every block form a tree due to forks in the network. But, in Inclusivce protocol, each block references a subset of previous blocks so they form a DAG(Directed Acyclic Graph).
 
@@ -212,7 +210,7 @@ Ethereum does use neither ```GHOST protocol``` nor ```Inclusive protocol```. Tod
 See the details of the above code [here](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md).
 
 
-## References
+# References
 
 > [1] G. Wood, "Ethereum a secure decentralised generalised transaction ledger", 2014.   
 > [2] Sompolinsky Y., Zohar A., "Secure High-Rate Transaction Processing in Bitcoin", 2015.   
@@ -222,7 +220,8 @@ See the details of the above code [here](https://github.com/twodude/ghost-relay/
 > [6] https://ethereum.stackexchange.com/questions/13378/what-is-the-exact-longest-chain-rule-implemented-in-the-ethereum-homestead-p   
 > [7] https://www.youtube.com/watch?v=57DCYtk0lWI   
 > [8] https://github.com/ethereum/go-ethereum/blob/master/consensus/ethash/consensus.go#L186   
+> [9] https://stackoverflow.com/questions/48515633/deleting-mapping-from-mapping-in-solidity   
 
 
-## License
+# License
 The GHOST Relay project is licensed under the [MIT](https://opensource.org/licenses/MIT), also included in our repository in the [LICENSE](https://github.com/twodude/ghost-relay/blob/master/LICENSE) file.
