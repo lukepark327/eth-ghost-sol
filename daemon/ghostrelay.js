@@ -4,27 +4,27 @@ const CryptoJS = require('crypto-js');
 const Tx = require('ethereumjs-tx');
 const coder = require('web3/lib/solidity/coder');
 
-const etherContractAddress = '0x1347e29d7603d47a29551d33263d64c30368ef1e';
-
-var latestBlockNum;     // latest block height
-var registeredBlockNum; // block height of the block registerd to contract
-var accountNonce;       // nonce of my account(fromAddress's account)
-const finalizedInterval = 10;
+var latestBlockNum;                 // latest block height
+var registeredBlockNum;             // block height of the block registerd to contract
+var accountNonce;                   // nonce of my account(fromAddress's account)
+const finalizedInterval = 10;       // 
 const registerTimeInterval = 15000; // 15 sec 
 
 // from Address' privateKey
-const privateKey = "YOURS";     // 9D9B98C2F6AA5616E174A89D2B1CD17D87861495B9E2A868815818D0719BDA90
-const fromAddress = "YOURS";    // 0xb306c730e784115804B2A56d3Ffe795db0878Cc8
-
+const privateKey = "YOURS";         // 9D9B98C2F6AA5616E174A89D2B1CD17D87861495B9E2A868815818D0719BDA90
+const fromAddress = "YOURS";        // 0xb306c730e784115804B2A56d3Ffe795db0878Cc8
 const privateKeyBuffer = Buffer.from(privateKey, 'hex');
 
 // Fill MY_API_KEY
 /*
 web3.setProvider(new web3.providers.HttpProvider('https://mainnet.infura.io/v3/' + "MY_API_KEY"));  // mainnet
-web3.setProvider(new web3.providers.HttpProvider('https://kovan.infura.io/v3/' + "MY_API_KEY"));    // kovan testnet
 web3.setProvider(new web3.providers.HttpProvider('https://rinkeby.infura.io/v3/' + "MY_API_KEY"));  // rinkby testnet
+web3.setProvider(new web3.providers.HttpProvider('https://kovan.infura.io/v3/' + "MY_API_KEY"));    // kovan testnet
 */
 web3.setProvider(new web3.providers.HttpProvider('https://ropsten.infura.io/v3/' + "MY_API_KEY"));  // repsten testnet
+
+// Contract Address
+const etherContractAddress = "YOURS";   // 0x1347e29d7603d47a29551d33263d64c30368ef1e
 
 // get block's data 
 function relay(num) {
