@@ -41,7 +41,9 @@ Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem usi
 
 ### Pruning
 
-We do not need to prune graphs. It is better not to do actually. You pay for updating the data in storage, but mapping lookups are constant. There is no null in Solidity. Everything is created with a default zero value corresponding to the data type (0 for ints, 0x0 for addresses, false for bool, etc). Deleting an element is the same as setting the value to 0(updating)[9].
+We do not need to prune graphs. Actually, it is better not to do. You pay for updating the data in storage, but mapping lookups are constant.
+
+There is no null in Solidity. Everything is created with a default zero value corresponding to the data type (0 for ints, 0x0 for addresses, false for bool, etc). Deleting an element is the same as setting the value to 0(updating)[[9]]((https://github.com/twodude/ghost-relay/blob/master/README.md#references)).
 
 <!--
 It requires too many fees(gases) to contain all nodes, so we have to prune some useless subgraphs. Fortunately, Ethereum requires ten confirmations to achieve finality[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references). It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
