@@ -42,6 +42,7 @@ Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem usi
 There are two options available:
 
 1. Give both main chain's block provider and uncle block provider rewards.
+	* In that case, we use modified inclusive protocol to distribute rewards.
 
 2. Give main chain's block provider rewards only.
 
