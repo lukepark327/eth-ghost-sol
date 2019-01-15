@@ -7,7 +7,7 @@
 
 ![icon](https://github.com/twodude/ghost-relay/blob/master/images/icon.png)
 
-The ```Ghost relay``` is a system that allow of cross-EVM-chain communication using smart contracts which include Inclusive-protocol, merkle-patricia proof, the longest chain rule etc..
+The ```GHOST relay``` is a system that allow of cross-EVM-chain communication using smart contracts which include Inclusive-protocol, merkle-patricia proof, the longest chain rule etc..
 
 > Based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
 
