@@ -49,6 +49,15 @@ You pay for updating the data in storage, but mapping lookups are constant. Ther
 It requires too many fees(gases) to contain all nodes, so we have to prune some useless subgraphs. Fortunately, Ethereum requires ten confirmations to achieve finality[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references). It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
 -->
 
+## Discussions
+
+* No uncles if there are few relayer.
+
+* Both short block interval and longest chain rule cause ```reorg``` frequently.
+
+* There are no strengths using longest chain rule implementation.
+
+
 ## ToDo: How to Use :: longest.sol
 
 Working on it...
@@ -163,7 +172,7 @@ However, Ethereum use a modified version of the Inclusive protocol. In Ethereum,
 * But uncle blocks' miners do receive some fraction of mining rewards[[5]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
 
 
-## Discussion
+## Discussions
 ### Dose Ethereum abandon both GHOST protocol and Inclusive protocol?[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 
 * around 24 min.
