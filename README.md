@@ -53,9 +53,9 @@ It requires too many fees(gases) to contain all nodes, so we have to prune some 
 
 * No uncles if there are few relayer.
 
-* Both short block interval and longest chain rule cause ```reorg``` frequently.
-
 * There are no strengths using longest chain rule implementation.
+	* Ghost or inclusive protocol implementation has some advantages like restricting ```reorg```.
+	* But, both short block interval and longest chain rule cause ```reorg``` frequently.
 
 
 ## ToDo: How to Use :: longest.sol
