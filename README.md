@@ -35,7 +35,9 @@ Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem usi
 
 ## Details
 
-### ToDo: Merkle Proof
+### Merkle Patricia Proof
+
+This implementation uses the merkle-patricia proofs implemented by [Zac Mitton](https://github.com/zmitton/eth-proof).
 
 ### ToDo: Rewards
 
