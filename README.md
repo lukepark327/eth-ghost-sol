@@ -39,6 +39,12 @@ Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem usi
 
 ### ToDo: Rewards
 
+There are two options available:
+
+1. Give both main chain's block provider and uncle block provider rewards.
+
+2. Give main chain's block provider rewards only.
+
 ### Pruning
 
 We do not need to prune graphs. Actually, it is better not to do.
