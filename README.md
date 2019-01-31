@@ -257,9 +257,7 @@ Each smart contract maintains state in its own permanent storage. Storage is ext
 
 Because zeros don’t take up any space, storage can be reclaimed by setting a value to zero. This is incentivized in smart contracts with a gas refund when you change a value to zero.
 
-* There are no deleting a mapping in solidity.
-
-The only way to clear the data is to overwriting. However, you have to concern about the gas consumption issues.
+* There are no deleting a mapping in solidity. The only way to clear the data is to overwriting. Therefore, you have to concern about the gas consumption issues.
 
 
 # References
