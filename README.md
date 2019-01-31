@@ -259,6 +259,8 @@ Because zeros don’t take up any space, storage can be reclaimed by setting a v
 
 * There are no deleting a mapping in solidity. The only way to clear the data is to overwriting. Therefore, you have to concern about the gas consumption issues.
 
+* Although there is a gas refund system in EVM, it can make loss that overwriting consumes more gas than refund one[[12]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
+
 
 # References
 
@@ -273,6 +275,7 @@ Because zeros don’t take up any space, storage can be reclaimed by setting a v
 > [9] https://stackoverflow.com/questions/48515633/deleting-mapping-from-mapping-in-solidity   
 > [10] https://programtheblockchain.com/posts/2018/03/09/understanding-ethereum-smart-contract-storage/
 > [11] https://stackoverflow.com/questions/48515633/deleting-mapping-from-mapping-in-solidity
+> [12] https://ethereum.stackexchange.com/questions/64217/gas-usage-higher-when-using-the-delete-keyword
 
 
 # License
