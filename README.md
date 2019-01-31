@@ -251,6 +251,17 @@ Ethereum does use neither ```GHOST protocol``` nor ```Inclusive protocol```. Tod
 See the details of the above code [here](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md).
 
 
+### Understanding Ethereum Smart Contract Storage[[10]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[11]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
+
+Each smart contract maintains state in its own permanent storage. Storage is extremely sparsely populated, and **there’s no need to store the zeros.** A key/value store mapping 32-byte keys to 32-byte values will do the job nicely. An absent key is simply defined as mapping to the value zero.
+
+Because zeros don’t take up any space, storage can be reclaimed by setting a value to zero. This is incentivized in smart contracts with a gas refund when you change a value to zero.
+
+* There are no deleting a mapping in solidity.
+
+The only way to clear the data is to overwriting. However, you have to concern about the gas consumption issues.
+
+
 # References
 
 > [1] G. Wood, "Ethereum a secure decentralised generalised transaction ledger", 2014.   
@@ -262,6 +273,8 @@ See the details of the above code [here](https://github.com/twodude/ghost-relay/
 > [7] https://www.youtube.com/watch?v=57DCYtk0lWI   
 > [8] https://github.com/ethereum/go-ethereum/blob/master/consensus/ethash/consensus.go#L186   
 > [9] https://stackoverflow.com/questions/48515633/deleting-mapping-from-mapping-in-solidity   
+> [10] https://programtheblockchain.com/posts/2018/03/09/understanding-ethereum-smart-contract-storage/
+> [11] https://stackoverflow.com/questions/48515633/deleting-mapping-from-mapping-in-solidity
 
 
 # License
