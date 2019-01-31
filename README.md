@@ -273,9 +273,9 @@ Because zeros don’t take up any space, storage can be reclaimed by setting a v
 > [7] https://www.youtube.com/watch?v=57DCYtk0lWI   
 > [8] https://github.com/ethereum/go-ethereum/blob/master/consensus/ethash/consensus.go#L186   
 > [9] https://stackoverflow.com/questions/48515633/deleting-mapping-from-mapping-in-solidity   
-> [10] https://programtheblockchain.com/posts/2018/03/09/understanding-ethereum-smart-contract-storage/
-> [11] https://stackoverflow.com/questions/48515633/deleting-mapping-from-mapping-in-solidity
-> [12] https://ethereum.stackexchange.com/questions/64217/gas-usage-higher-when-using-the-delete-keyword
+> [10] https://programtheblockchain.com/posts/2018/03/09/understanding-ethereum-smart-contract-storage/   
+> [11] https://stackoverflow.com/questions/48515633/deleting-mapping-from-mapping-in-solidity   
+> [12] https://ethereum.stackexchange.com/questions/64217/gas-usage-higher-when-using-the-delete-keyword   
 
 
 # License
