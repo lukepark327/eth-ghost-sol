@@ -48,28 +48,21 @@ There are two options available:
 
 2. Give main chain's block provider rewards only.
 
-### ToDo: Array vs Mapping
+### Array vs Mapping
 
 Seperate implementation for longest chain and heaviest chain that use array.
 
-Current ArrayImp contains code for heaviest chain, which is not needed for a longest chain mechanism
+Current ArrayImp.sol contains codes for heaviest chain, which is not needed for a longest chain mechanism.
+
+The array implementation that looks at recent windows of blocks given, assigns blocks over those having oldest blockNumber as the window moves forward.
+
+Compiles but not tested.
 
 ### Pruning
 
 We do not need to prune graphs. Actually, it is better not to do.
 
 You pay for updating the data in storage, but mapping lookups are constant. There is no null in Solidity. Everything is created with a default zero value corresponding to the data type (0 for ints, 0x0 for addresses, false for bool, etc). Deleting an element is the same as setting the value to 0(updating)[[9]]((https://github.com/twodude/ghost-relay/blob/master/README.md#references)).
-
-It seems the size of mapping can only increase, not decrease(delete just assigns false/0 to values and memory is not "freed").
-
-Need verification that EVM stores mapped values permanently, even if "deleted" to initial values.
-
-If that is the case, for pruning mapping cannot be used,
-because new data is constantly getting inserted into mapping, so the contract size will keep increasing till the limit.
-
-Array implementation that looks at recent windows of blocks given.
-compiles but not tested.
-The array implementation assigns blocks over those having oldest blockNumber, as the window moves forward
 
 <!--
 It requires too many fees(gases) to contain all nodes, so we have to prune some useless subgraphs. Fortunately, Ethereum requires ten confirmations to achieve finality[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references). It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
@@ -84,23 +77,20 @@ It requires too many fees(gases) to contain all nodes, so we have to prune some 
 	* But, both short block interval and longest chain rule cause ```reorg``` frequently.
 
 * For, uncles, verify if valid uncles exist in the contract? 
-  * If a node A is sent by relayer, and the a.prevBlockHash is in contract but there is node in A.uncles that is not in contract,
-  * Accept or revert? Currently, reverts
+	* If a node A is sent by relayer, and the a.prevBlockHash is in contract but there is node in A.uncles that is not in contract;
+	* Accept or revert? Currently, reverts.
 
-* Reward needs implementation
-
-* How to prevent false values sent by relayer?
-  * Example, totally random hash, but valid prevBlockHash?
-  * invalid transaction hash, or excetera?
-  * ToDo: verify hash from node info?
+* Reward implementation is needed.
 
 ## ToDo: How to Use :: longest.sol
 
-Working on it...
-
+<!--
 npm install
+-->
 
-uncomment compiler version in truffle.js, otherwise "truffle compile" does not work with solidity 0.5.1
+Uncomment compiler version in truffle.js, otherwise "truffle compile" does not work with solidity 0.5.1.
+
+Working on it...
 
 <!--
 ## How to Use :: ghost.sol
