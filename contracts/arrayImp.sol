@@ -1,4 +1,7 @@
 pragma solidity ^0.5.1;
+/*
+:set syntax=solidity
+*/
 
 contract dag {
 
