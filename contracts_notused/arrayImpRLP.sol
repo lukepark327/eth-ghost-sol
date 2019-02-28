@@ -8,8 +8,10 @@ contract trustedRelay {
   using RLP for RLP.Iterator;
   using RLP for bytes;
 
-    struct BlockHeader { //stored information, block number can be known from relative array location and highest location
+    struct BlockHeader { //stored information
+        bool        isNode;
         bytes32     blockHash;
+        bytes32     prevBlockHash;
         bytes32     txRoot;
         bytes32     receiptRoot;
     }
@@ -17,12 +19,13 @@ contract trustedRelay {
     struct BlockInfo { //information sent by relayer
         bytes32     blockHash;
         uint256     blockNumber;
+        bytes32     prevBlockHash;
         bytes32     txRoot;
         bytes32     receiptRoot;
     }
 
-//txRoot     to know if transaction is performed, amount of value intended to transfer
-//receptRoot to know if transaction succeeded, or reverted + logs/events
+//txRoot can know if transaction is performed, amount of value intended to transfer
+//receptRoot can know if transaction succeeded, or reverted + logs/events
 
 //  modifier onlyOwner() {
 //    if (owner == msg.sender) {
@@ -47,7 +50,7 @@ contract trustedRelay {
         so array implementation is chosen. 
         If pruning not wanted, no reason to not use mapping.
     */
-    BlockHeader[arrayLength] public blockArray; 
+    BlockHeader[sameBlockNumCap][arrayLength] public blockArray; 
     /*
         arrayLength elements, each element a array with length of sameBlockNumCap
         to get block info, need its blockNumber
@@ -59,19 +62,24 @@ contract trustedRelay {
     
     uint256 public LowestBlockNumber;
     uint256 public HighestBlockNumber;
+    uint256 public HighestBlockSecondIndex;
     
     uint256 private constant arrayLength=10;
-    uint256 private constant maxDepth=7; //blocks older than maxDepth from HighestBlockNumber not modified
+    uint256 private constant sameBlockNumCap=5;
+    uint256 private constant maxDepth=7; //blocks older than maxDepth from HighestBlockNumber not accepted
 
     constructor(
             uint256             _blockNumber,
             bytes32             _blockHash,
+            bytes32             _prevBlockHash,
             bytes32             _txRoot,
             bytes32             _receiptRoot
+            
         )
         public
     {
-      writeBlock(_blockNumber%arrayLength, _blockHash, _txRoot, _receiptRoot);
+      writeBlock(_blockNumber%arrayLength, 0, _blockHash, _prevBlockHash, _txRoot, _receiptRoot);
+      HighestBlockSecondIndex = 0;
       HighestBlockNumber = _blockNumber;
       LowestBlockNumber = _blockNumber;
       authorized[msg.sender]=true;
@@ -106,12 +114,14 @@ contract trustedRelay {
         view
         returns(bool){
 
-        if(blockArray[blockNumber%arrayLength].blockHash = blockHash){
-            return true;
+        for(uint256 j = 0; j<sameBlockNumCap; j++)
+        {
+            if(blockArray[blockNumber%arrayLength][j].isNode == true && blockArray[blockNumber%arrayLength][j].blockHash = blockHash){
+                return true;
+            }
         }
-        else{
-            return false;
-        }
+        return false;
+
   }
 
     function getRecentBlock()
@@ -120,10 +130,11 @@ contract trustedRelay {
         returns(bytes32,
             uint256,
             bytes32,
+            bytes32,
             bytes32)
     {
         uint256 firstIndex = HighestBlockNumber%arrayLength;
-        return (blockArray[firstIndex].blockHash, HighestBlockNumber, blockArray[firstIndex].txRoot, blockArray[firstIndex].receiptRoot);
+        return (blockArray[firstIndex][HighestBlockSecondIndex].blockHash, HighestBlockNumber, blockArray[firstIndex][HighestBlockSecondIndex].blockHash, blockArray[firstIndex][HighestBlockSecondIndex].txRoot, blockArray[firstIndex][HighestBlockSecondIndex].receiptRoot);
     }
 
     function getBlockByNumber(uint256 blockNumberToGet)
@@ -133,72 +144,131 @@ contract trustedRelay {
     {
         require(blockNumberToGet >= LowestBlockNumber);
         require(blockNumberToGet <= HighestBlockNumber);
+        uint256 secondIndex = HighestBlockSecondIndex;
+        for(uint256 i = 0; i<HighestBlockNumber-blockNumberToGet; i++){
+            secondIndex = getSecondIndex(blockArray[(HighestBlockNumber-i)%arrayLength][secondIndex].prevBlockHash, (HighestBlockNumber-i-1)%arrayLength);
+            require(secondIndex != sameBlockNumCap);
+        }
         uint256 firstIndex = blockNumberToGet%arrayLength;
-        return (blockArray[firstIndex].blockHash, blockNumberToGet, blockArray[firstIndex].txRoot, blockArray[firstIndex].receiptRoot);
+        return (blockArray[firstIndex][secondIndex].blockHash, blockNumberToGet, blockArray[firstIndex][secondIndex].blockHash, blockArray[firstIndex][secondIndex].txRoot, blockArray[firstIndex][secondIndex].receiptRoot);
+    }
+
+
+    function getRecentBlockHashAndNumber()
+        public
+        view
+        returns(bytes32, uint256)
+    {
+        return (blockArray[HighestBlockNumber%arrayLength][HighestBlockSecondIndex].blockHash, HighestBlockNumber);
+    }
+
+    function getBlockHashByNumber(uint256 blockNumberToGet)
+        public
+        view
+        returns(bytes32)
+    {
+        require(blockNumberToGet >= LowestBlockNumber);
+        require(blockNumberToGet <= HighestBlockNumber);
+        bytes32 hash = blockArray[HighestBlockNumber%arrayLength][HighestBlockSecondIndex].blockHash;
+        uint256 secondIndex = HighestBlockSecondIndex;
+        for(uint256 i = 0; i<HighestBlockNumber-blockNumberToGet; i++){
+            secondIndex = getSecondIndex(blockArray[(HighestBlockNumber-i)%arrayLength][secondIndex].prevBlockHash, (HighestBlockNumber-i-1)%arrayLength);
+            require(secondIndex != sameBlockNumCap);
+            hash = blockArray[(HighestBlockNumber-i-1)%arrayLength][secondIndex].blockHash;
+        }
+        return hash;
     }
 
     function mapBlock (
             BlockInfo info
         )
         private
+        returns(uint256 secondIndex)
     {
         uint256 blockFirstIndex =info.blockNumber%arrayLength;
         if(info.blockNumber > HighestBlockNumber){
-            writeBlock(blockFirstIndex, info.blockHash, info.txRoot, info.receiptRoot);
+            for(uint256 i = HighestBlockNumber + 1; i <= info.blockNumber; i++)
+            {
+                for(uint256 j = 0; j<sameBlockNumCap; j++)
+                {
+                    if(blockArray[i%arrayLength][j].isNode){
+                        blockArray[i%arrayLength][j].isNode = false;
+                    }
+                }
+            }
+            writeBlock(blockFirstIndex, 0, info.blockHash, info.prevBlockHash, info.txRoot, info.receiptRoot);
             HighestBlockNumber = info.blockNumber;
             LowestBlockNumber = info.blockNumber-arrayLength-1;
+            return 0;
         }
         else{
-            //don't write if too deep block
-            require(info.blockNumber > HighestBlockNumber-maxDepth);
-            writeBlock(blockFirstIndex, info.blockHash, info.txRoot, info.receiptRoot);
+            uint256 blockSecondIndex = sameBlockNumCap;
+            for(uint256 j = 0; j<sameBlockNumCap; j++){
+                if(blockArray[blockFirstIndex][j].isNode == false){
+                    blockSecondIndex=j;
+                    break;
+                }
+            }
+            require(blockSecondIndex < sameBlockNumCap);
+            writeBlock(blockFirstIndex, blockSecondIndex, info.blockHash, info.prevBlockHash, info.txRoot, info.receiptRoot);
+            return blockSecondIndex;
         }
     }
 
 
     function writeBlock (
             uint256             _firstIndex,
+            uint256             _secondIndex,
             bytes32             _blockHash,
+            bytes32             _prevBlockHash,
             bytes32             _txRoot,
             bytes32             _receiptRoot
         )
         private
     {
-        blockArray[_firstIndex].blockHash = _blockHash;
-        blockArray[_firstIndex].txRoot = _txRoot;
-        blockArray[_firstIndex].receiptRoot = _receiptRoot;
+        blockArray[_firstIndex][_secondIndex].isNode = true;
+        blockArray[_firstIndex][_secondIndex].blockHash = _blockHash;
+        blockArray[_firstIndex][_secondIndex].prevBlockHash = _prevBlockHash;
+        blockArray[_firstIndex][_secondIndex].txRoot = _txRoot;
+        blockArray[_firstIndex][_secondIndex].receiptRoot = _receiptRoot;
     }
+
+    function getSecondIndex(
+            bytes32       blockHash,
+            uint256       firstIndex
+        )
+        private
+        view
+        returns(uint256 index)
+    {
+        for(uint256 i=0; i<sameBlockNumCap; i++){
+            if(blockArray[firstIndex][i].blockHash==blockHash && blockArray[firstIndex][i].isNode==1){
+                return i;
+            }
+        }
+        return sameBlockNumCap;
+    }
+
 
   function checkTxProof(bytes value, uint256 blockHash, bytes path, bytes parentNodes) public view returns (bool) {
     // add fee for checking transaction
-    uint256 blockIndex = getBlockIndex(blockHash);
-    bytes32 txRoot = blockArray[blockIndex].txRoot;
+    bytes32 txRoot = blocks[blockHash].txRoot;
     return trieValue(value, path, parentNodes, txRoot);
   }
 
   // TODO: test
 //  function checkStateProof(bytes value, uint256 blockHash, bytes path, bytes parentNodes) public view returns (bool) {
-//    bytes32 stateRoot = blockArray[blockNumber%arrayLength].stateRoot;
+//    bytes32 stateRoot = blocks[blockHash].stateRoot;
 //    return trieValue(value, path, parentNodes, stateRoot);
 //  }
 
   // TODO: test
   function checkReceiptProof(bytes value, uint256 blockHash, bytes path, bytes parentNodes) public view returns (bool) {
-    uint256 blockNumber = getBlockIndex(blockHash);
-    bytes32 receiptRoot = blockArray[blockIndex].receiptRoot;
+    bytes32 receiptRoot = blocks[blockHash].receiptRoot;
     return trieValue(value, path, parentNodes, receiptRoot);
   }
 
-  function getBlockIndex(bytes32 blockHash) internal view returns (uint256){
-      for(uint256 i = 0; i < arrayLength; i++){
-          if(blockArray[(HighestBlockNumber-i)%arrayLength]==blockHash){
-              return (HighestBlockNumber-1)%arrayLength;
-          }
-      }
-      require(false);
-  }
-
-  // parse block header, need work
+  // parse block header
   function parseBlockHeader(bytes rlpHeader) view internal returns (BlockInfo) {
     BlockInfo memory header;
     RLP.Iterator memory it = rlpHeader.toRLPItem().iterator();
@@ -227,15 +297,15 @@ contract trustedRelay {
 //  }
 
 //  function getStateRoot(uint256 blockHash) view returns (bytes32) {
-//    return blockArray[blockNumber%arrayLength].stateRoot;
+//    return blocks[blockHash].stateRoot;
 //  }
 
 //  function getTxRoot(uint256 blockHash) view returns (bytes32) {
-//    return blockArray[blockNumber%arrayLength].txRoot;
+//    return blocks[blockHash].txRoot;
 //  }
 
 //  function getReceiptRoot(uint256 blockHash) view returns (bytes32) {
-//    return blockArray[blockNumber%arrayLength].receiptRoot;
+//    return blocks[blockHash].receiptRoot;
 //  }
 
   function trieValue(bytes value, bytes encodedPath, bytes parentNodes, bytes32 root) view internal returns (bool) {
