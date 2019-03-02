@@ -32,107 +32,75 @@ There is an Ethereum contract that stores all the other Ethereum chain's block h
 
 Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem using the longest chain rule. Also it is able to treat two sides reorg because not relayer but the smart contract selects confirmed block.
 
+Actually not really
+
 
 ## Details
 
 ### Merkle Patricia Proof
+one implementation by [Zac Mitton](https://github.com/zmitton/eth-proof).
 
-This implementation uses the merkle-patricia proofs implemented by [Zac Mitton](https://github.com/zmitton/eth-proof).
+one used is from github.com/OpenSTFoundation/mosaic-contracts/blob/develop/contracts/lib/MerklePatriciaProof.sol
 
-### ToDo: Rewards
+### Recursice Length Predix encoding/decoding
 
-There are two options available:
-
-1. Give both main chain's block provider and uncle block provider rewards.
-	* In that case, we use modified inclusive protocol to distribute rewards.
-
-2. Give main chain's block provider rewards only.
-
-### Array vs Mapping
-
-Seperate implementation for longest chain and heaviest chain that use array.
-
-Current ArrayImp.sol contains codes for heaviest chain, which is not needed for a longest chain mechanism.
-
-The array implementation that looks at recent windows of blocks given, assigns blocks over those having oldest blockNumber as the window moves forward.
-
-Compiles but not tested.
+https://github.com/hamdiallam/Solidity-RLP/blob/master/contracts/RLPReader.sol is more recent and updated
+https://github.com/androlo/standard-contracts/tree/master/contracts/src/codec is longer, used in peace-relay, has iterator, and pull request is not merged, and is the one used
 
 ### Pruning
 
-We do not need to prune graphs. Actually, it is better not to do.
+If pruning not done, mapping is simplest
 
-You pay for updating the data in storage, but mapping lookups are constant. There is no null in Solidity. Everything is created with a default zero value corresponding to the data type (0 for ints, 0x0 for addresses, false for bool, etc). Deleting an element is the same as setting the value to 0(updating)[[9]]((https://github.com/twodude/ghost-relay/blob/master/README.md#references)).
+pruning on mapping is done by rewriting a item to zero, and writing a new item, which has 5000-15000+20000=10000 gas cost per word(write on storage having nonzero value, refunded gas, gas cost to write on storage with zero value)
 
-<!--
-It requires too many fees(gases) to contain all nodes, so we have to prune some useless subgraphs. Fortunately, Ethereum requires ten confirmations to achieve finality[[6]](https://github.com/twodude/ghost-relay/blob/master/README.md#references). It is possible to prune all the other subgraphs which have no relationship with recent blocks, except a main-chain's one.
--->
+pruning on array is just rewriting item over an item, which has 5000 gas per word(write on storage already having nonzero value)
+
+so array is better for pruning. Implementing overwrite on mapping defeats purpose of mapping(why not array in first place)
+
+No pruning means upto higher gas cost, ever-increasing blockchain size(used storage just keeps increasing), but interchain verification of very old blocks, possibly genesis supported
+
 
 ## Discussions
 
-* No uncles if there are few relayer.
+* Check https://ethereum.stackexchange.com/questions/2328/is-it-possible-to-verify-ethash-pow-in-a-contract for ethash on solidity, the answerer is writer of blog that suggested peace-relay
+    * performing ethash on solidity, for every block(every 15 sec) is infeasable
+    * On chain verification very limited
+    
+* This implementation assumes trusted relayer
 
-* There are no strengths using longest chain rule implementation.
-	* Ghost or inclusive protocol implementation has some advantages like restricting ```reorg```.
-	* But, both short block interval and longest chain rule cause ```reorg``` frequently.
+* What implications does a trusted relayer have?
+    * off-chain verification of relayed blocks is trivial, just compare the values with the real ones
+    * inter-blockchain transasction relies on assumption that trusted relayer continues to act appropriatly for the (near?) future
+    * If relayer sends a wrong block value, it can be seen and ALL users will be unable to verify their transactions on that block(except the transactions relayer deliverately frauded the block values for)
+    * Possible attack by relayer = fraud all transactions on a block to maximize malicious transfer value. This will users can chose to no longer trust that system
+    * Therefore, little incentive for relayer to act dishonestly, especially if heterogenous blockchain transfer cannot suddenly peak and is widely used, and there is reward for relayer to continue acting honest
+    * This means large value transaction has to be sent divided on many transactions
+    * No need to store prevBlockHash, or the many forks. Relayer can just decide the main chain
+    * Smart contract can be written so that relayer cannot update block header, that is sufficiently old enough(like 7 blocks deep?). Only rewrite with newer block header(pruning)
+    * On-chain consensus(longest or heaviest) irrelevant if trusted relayer
 
-* For, uncles, verify if valid uncles exist in the contract? 
-	* If a node A is sent by relayer, and the a.prevBlockHash is in contract but there is node in A.uncles that is not in contract;
-	* Accept or revert? Currently, reverts.
+* If the relayer suddenly acts dishonest, what can happen?
+    * ongoing inter-chain transaction screwed... but how exactly?
 
-* Reward implementation is needed.
+* Only store and merkleproof verification functionality given, no reward
+
+* Preventing false values sent by relayer... If ethash(ethereum PoW hash) didn't use so must memory and was just a simple hash like bitcoin, could have performed onchain verification and consensus...
+    * So much for that "asic resistance"
 
 ## ToDo: How to Use :: longest.sol
 
-<!--
-npm install
--->
-
-Uncomment compiler version in truffle.js, otherwise "truffle compile" does not work with solidity 0.5.1.
-
 Working on it...
+install truffle
+"(sudo) npm install -g truffle"
 
-<!--
-## How to Use :: ghost.sol
+in ghost-relay folder
 
-### newNode
-```solidity
-function newNode(
-        bytes32 BlockHash,
-        bytes32 prevBlockHash,
-        bytes32 stateRoot,
-        bytes32 txRoot,
-        bytes32 receiptRoot
-    ) 
-    public
-    returns(bytes32 newNodeId)
-```
+"npm install"
+"truffle init"
 
-Register a new node for blockchain(tree structure).   
-Return new block's hash.
+uncomment compiler version in truffle.js, otherwise "truffle compile" does not work sol source code currently requires solidity 0.5.1, truffle default 0.5.0
 
-### pruneBranch
-```solidity
-function pruneBranch(bytes32 nodeId)
-    public
-    returns(bool success)
-```
-
-Delete a branch.   
-Return true/false.
-
-### getNextNode
-```solidity
-function getNextNode(bytes32 nodeId)
-    public
-    view
-    returns(bytes32 childId)
-```
-
-Calculate the heavist subtree. Select main chain.   
-Return selected child block's hash.
--->
-
+"truffle compile"
 
 # Backgrounds
 
@@ -146,7 +114,7 @@ export interface BlockHeader {
     number: number;
     hash: string;
     parentHash: string;
-    nonce: string;
+    nonce: string;  
     sha3Uncles: string;
     logsBloom: string;
     transactionRoot: string;
