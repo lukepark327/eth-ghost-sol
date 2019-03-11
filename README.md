@@ -11,6 +11,9 @@ The ```GHOST relay``` is a system that allow of cross-EVM-chain communication us
 
 > Based on [Peace Relay](https://github.com/KyberNetwork/peace-relay)
 
+* See details: [Wiki](https://github.com/twodude/ghost-relay/wiki)
+
+
 ## Abstact
 
 ```GHOST relay``` is an ETH-ETH(Ethereum-Ethereum Classic, etc.) relaying smart contract. GHOST relay allows trustworthy cross-chain transfers based on Ethereum core.
