@@ -37,6 +37,17 @@ Ghost relay is able to treat blockchain reorganization(a.k.a. reorg) problem usi
 
 Actually not really
 
+## ToDo
+
+added 2019-03-11,
+
+1. Decode rlp data in contract
+
+2. Encode block header data in deamon
+
+trustedRelay.sol: parseBlockHeader function gotten from peaceRelay. To get multiple blockheader data from daemon, recommended method is to serialize blockheader info into RLP, and deserialize it in contract. Let one item=1block header, and sending several items as single bytes array.
+
+Minimum blockheader number to send per transaction >= 7? Bigger required if transaction accept time is longer
 
 ## Details
 
