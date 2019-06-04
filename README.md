@@ -14,9 +14,9 @@ We use the ```modified inclusive protocol``` in Ethereum for rewards system[[8]]
 ![overview](https://github.com/twodude/ghost-relay/blob/master/images/overview.png)
 -->
 
-There is an Ethereum contract that stores all the other Ethereum chain's block headers relayed&mdash;submitted by users, or relayers. As you know, each block header contains committed transactions. Given a block header, anyone will be able to verify if a transaction is included or not. Now we can offer a transfer services from ETH_1 to ETH_2.
+There is an Ethereum contract that stores all the other Ethereum chain's block headers relayed&mdash;submitted by users, or relayers. As you know, each block contains committed transactions. Given a block header, anyone will be able to verify if a transaction is included or not with merkle-proof. Now we can offer a transfer services from ETH_1 to ETH_2.
 
-Ghost contract is able to treat blockchain reorganization(a.k.a. reorg) problem using the longest chain rule. Also it is able to treat two sides reorg because not relayer but the smart contract selects confirmed block.
+Ghost contract is able to treat blockchain reorganization(a.k.a. reorg) problem using the longest chain rule. Maybe it is able to treat two sides reorg because not relayer but the smart contract selects confirmed block...?
 
 # Backgrounds
 
@@ -88,7 +88,7 @@ However, Ethereum use a modified version of the Inclusive protocol. In Ethereum,
 
 ### Dose Ethereum abandon both GHOST protocol and Inclusive protocol?[[7]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 
-* around 24 min.
+* around 24 min. in video.
 * He said *"Today's Ethereum is just following the longest chain rule"*.
 
 Yes. Ethereum abandons both things but adopts the longest chain rule.
@@ -133,7 +133,6 @@ expd := CalcDifficulty(config, header.Time.Uint64(), parent.Time.Uint64(), paren
 
 See the details of the above code [here](https://github.com/twodude/ghost-relay/blob/master/codeReviews.md).
 
-
 ### Understanding Ethereum Smart Contract Storage[[10]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)[[11]](https://github.com/twodude/ghost-relay/blob/master/README.md#references)
 
 Each smart contract maintains state in its own permanent storage. Storage is extremely sparsely populated, and **there’s no need to store the zeros.** A key/value store mapping 32-byte keys to 32-byte values will do the job nicely. An absent key is simply defined as mapping to the value zero.
@@ -143,7 +142,6 @@ Because zeros don’t take up any space, storage can be reclaimed by setting a v
 * There are no deleting a mapping in solidity. The only way to clear the data is to overwriting. Therefore, you have to concern about the gas consumption issues.
 
 * Although there is a gas refund system in EVM, it can make loss that overwriting consumes more gas than refund one[[12]](https://github.com/twodude/ghost-relay/blob/master/README.md#references).
-
 
 # References
 
